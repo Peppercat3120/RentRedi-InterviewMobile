@@ -22,6 +22,10 @@
 		10000000000000000000000D /* MockDatabaseReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000011 /* MockDatabaseReference.swift */; };
 		10000000000000000000000E /* DemoDestinationViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000012 /* DemoDestinationViewControllers.swift */; };
 		10000000000000000000000F /* DatabaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000013 /* DatabaseFunctions.swift */; };
+		100000000000000000000010 /* PhotoCarouselItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000014 /* PhotoCarouselItem.swift */; };
+		100000000000000000000011 /* PhotoCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000015 /* PhotoCarouselCell.swift */; };
+		100000000000000000000012 /* PhotoCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000016 /* PhotoCarouselView.swift */; };
+		100000000000000000000013 /* PhotoCarouselView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000017 /* PhotoCarouselView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +48,10 @@
 		200000000000000000000011 /* MockDatabaseReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseReference.swift; sourceTree = "<group>"; };
 		200000000000000000000012 /* DemoDestinationViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDestinationViewControllers.swift; sourceTree = "<group>"; };
 		200000000000000000000013 /* DatabaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFunctions.swift; sourceTree = "<group>"; };
+		200000000000000000000014 /* PhotoCarouselItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCarouselItem.swift; sourceTree = "<group>"; };
+		200000000000000000000015 /* PhotoCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCarouselCell.swift; sourceTree = "<group>"; };
+		200000000000000000000016 /* PhotoCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCarouselView.swift; sourceTree = "<group>"; };
+		200000000000000000000017 /* PhotoCarouselView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCarouselView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +144,7 @@
 		400000000000000000000009 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				400000000000000000000010 /* Components */,
 				40000000000000000000000A /* Controls */,
 				40000000000000000000000B /* Extensions */,
 			);
@@ -192,6 +201,25 @@
 				200000000000000000000008 /* TenantCardSubmission.swift */,
 			);
 			path = Reference;
+			sourceTree = "<group>";
+		};
+		400000000000000000000010 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				400000000000000000000011 /* PhotoCarousel */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		400000000000000000000011 /* PhotoCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000014 /* PhotoCarouselItem.swift */,
+				200000000000000000000015 /* PhotoCarouselCell.swift */,
+				200000000000000000000016 /* PhotoCarouselView.swift */,
+				200000000000000000000017 /* PhotoCarouselView.xib */,
+			);
+			path = PhotoCarousel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				100000000000000000000005 /* ApartmentPopupView.xib in Resources */,
+				100000000000000000000013 /* PhotoCarouselView.xib in Resources */,
 				100000000000000000000006 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +309,9 @@
 				10000000000000000000000D /* MockDatabaseReference.swift in Sources */,
 				10000000000000000000000E /* DemoDestinationViewControllers.swift in Sources */,
 				10000000000000000000000F /* DatabaseFunctions.swift in Sources */,
+				100000000000000000000010 /* PhotoCarouselItem.swift in Sources */,
+				100000000000000000000011 /* PhotoCarouselCell.swift in Sources */,
+				100000000000000000000012 /* PhotoCarouselView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

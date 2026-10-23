@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoCarouselView" customModule="ApartmentPopupDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="collection-view" id="collection-outlet"/>
+                <outlet property="pageControl" destination="page-control" id="page-control-outlet"/>
+                <outlet property="pageNumberLabel" destination="page-number" id="page-number-outlet"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="root-view">
+            <rect key="frame" x="0.0" y="0.0" width="282" height="278.5"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="collection-view">
+                    <rect key="frame" x="0.0" y="0.0" width="282" height="278.5"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="flow-layout">
+                        <size key="itemSize" width="0.0" height="0.0"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <cells/>
+                </collectionView>
+                <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="page-control">
+                    <rect key="frame" x="63.5" y="252.5" width="155" height="26"/>
+                    <color key="pageIndicatorTintColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="currentPageIndicatorTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                </pageControl>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="page-number">
+                    <rect key="frame" x="215.5" y="246.5" width="56.5" height="22"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.4243325745" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </label>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="collection-view" firstAttribute="leading" secondItem="root-view" secondAttribute="leading" id="collection-leading"/>
+                <constraint firstAttribute="trailing" secondItem="collection-view" secondAttribute="trailing" id="collection-trailing"/>
+                <constraint firstItem="collection-view" firstAttribute="top" secondItem="root-view" secondAttribute="top" id="collection-top"/>
+                <constraint firstAttribute="bottom" secondItem="collection-view" secondAttribute="bottom" id="collection-bottom"/>
+                <constraint firstItem="page-control" firstAttribute="centerX" secondItem="collection-view" secondAttribute="centerX" id="page-control-center"/>
+                <constraint firstItem="page-control" firstAttribute="bottom" secondItem="collection-view" secondAttribute="bottom" id="page-control-bottom"/>
+                <constraint firstItem="page-number" firstAttribute="trailing" secondItem="collection-view" secondAttribute="trailing" constant="-10" id="page-number-trailing"/>
+                <constraint firstItem="page-number" firstAttribute="bottom" secondItem="collection-view" secondAttribute="bottom" constant="-10" id="page-number-bottom"/>
+                <constraint firstItem="page-number" firstAttribute="width" secondItem="collection-view" secondAttribute="width" multiplier="0.2" id="page-number-width"/>
+                <constraint firstItem="page-number" firstAttribute="height" secondItem="collection-view" secondAttribute="height" multiplier="0.08" id="page-number-height"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="132" y="23"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

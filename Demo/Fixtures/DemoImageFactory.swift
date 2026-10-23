@@ -15,6 +15,23 @@ enum DemoImageFactory {
             ImageDescription(title: "Bedroom", subtitle: "Quiet and comfortable", color: UIColor(red: 0.53, green: 0.39, blue: 0.72, alpha: 1), symbol: "bed.double.fill")
         ]
 
+        return makeImageURLs(from: descriptions, filePrefix: "apartment-demo")
+    }
+
+    static func makeMaintenanceImageURLs() -> [URL] {
+        let descriptions = [
+            ImageDescription(title: "Under Sink", subtitle: "Active water drip", color: UIColor(red: 0.12, green: 0.52, blue: 0.72, alpha: 1), symbol: "drop.fill"),
+            ImageDescription(title: "Cabinet Base", subtitle: "Visible water damage", color: UIColor(red: 0.76, green: 0.45, blue: 0.20, alpha: 1), symbol: "wrench.and.screwdriver.fill"),
+            ImageDescription(title: "Water Stain", subtitle: "Area needing repair", color: UIColor(red: 0.55, green: 0.39, blue: 0.32, alpha: 1), symbol: "exclamationmark.triangle.fill")
+        ]
+
+        return makeImageURLs(from: descriptions, filePrefix: "maintenance-demo")
+    }
+
+    private static func makeImageURLs(
+        from descriptions: [ImageDescription],
+        filePrefix: String
+    ) -> [URL] {
         return descriptions.enumerated().compactMap { index, description in
             let renderer = UIGraphicsImageRenderer(size: CGSize(width: 900, height: 650))
             let image = renderer.image { context in
@@ -44,7 +61,7 @@ enum DemoImageFactory {
             }
 
             guard let data = image.pngData() else { return nil }
-            let url = FileManager.default.temporaryDirectory.appendingPathComponent("apartment-demo-\(index).png")
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(filePrefix)-\(index).png")
             do {
                 try data.write(to: url, options: .atomic)
                 return url

@@ -10,16 +10,27 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = scene as? UIWindowScene else { return }
 
-        let listingService = DemoApartmentListingService(
-            details: DemoApartmentPopupFixture.makeListingDetails()
+        let menuViewController = DemoMenuViewController(
+            makeApartmentDemo: {
+                let controller = DemoViewController(
+                    listingService: DemoApartmentListingService(
+                        details: DemoApartmentPopupFixture.makeListingDetails()
+                    ),
+                    inviteStatusService: RecordingInviteStatusService(),
+                    initialSubmission: DemoApartmentPopupFixture.makeSubmission()
+                )
+                controller.title = "Apartment Popup"
+                return controller
+            },
+            makeMaintenanceDemo: {
+                MaintenanceRequestViewController(
+                    request: DemoMaintenanceRequestFixture.makeRequest()
+                )
+            }
         )
-        let inviteStatusService = RecordingInviteStatusService()
-        let submission = DemoApartmentPopupFixture.makeSubmission()
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = DemoViewController(
-            listingService: listingService,
-            inviteStatusService: inviteStatusService,
-            initialSubmission: submission
+        window.rootViewController = UINavigationController(
+            rootViewController: menuViewController
         )
         window.makeKeyAndVisible()
         self.window = window

@@ -1,16 +1,5 @@
 import UIKit
 
-enum ApartmentPopupControllerError: LocalizedError {
-    case unsupportedSubmissionType(String)
-
-    var errorDescription: String? {
-        switch self {
-        case .unsupportedSubmissionType(let type):
-            return "Unsupported submission type: \(type)"
-        }
-    }
-}
-
 @MainActor
 final class DemoViewController: RentRediPlusHomeVC {
     private let listingService: ApartmentListingLoading
@@ -20,17 +9,6 @@ final class DemoViewController: RentRediPlusHomeVC {
     private var listingTask: Task<Void, Never>?
 
     private(set) var popupView: ApartmentPopupView?
-    var makeApplyHomeViewController: () -> ApplyHomeVC = {
-        UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(withIdentifier: "applyHomeScreen") as! ApplyHomeVC
-    }
-    var makePrequalifyHomeViewController: () -> PrequalifyHomeVC = {
-        UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(withIdentifier: "prequalifyHomeScreen") as! PrequalifyHomeVC
-    }
-    lazy var presentDestination: (UIViewController) -> Void = { [weak self] destination in
-        self?.present(destination, animated: true, completion: nil)
-    }
 
     init(
         listingService: ApartmentListingLoading,
@@ -188,32 +166,8 @@ final class DemoViewController: RentRediPlusHomeVC {
 
 extension DemoViewController: ApartmentPopupViewDelegate {
     func apartmentPopupViewDidRequestStart(_ popupView: ApartmentPopupView) {
+        // Mocked behavior for this challenge: dismiss instead of entering the production application flow.
         popupView.isHidden = true
-        hideTenantToDoAlert()
-
-        guard let tenantCardSubmission,
-              let submissionType = tenantCardSubmission.submissionType,
-              let invite = makeInviteIdentifier(from: tenantCardSubmission) else {
-            return
-        }
-
-        persistStatus(.accepted, for: invite)
-
-        switch submissionType {
-        case "application":
-            let destination = makeApplyHomeViewController()
-            destination.modalPresentationStyle = .fullScreen
-            destination.tenantCardSubmission = tenantCardSubmission
-            destination.homeVC = self
-            presentDestination(destination)
-        case "prequalification":
-            let destination = makePrequalifyHomeViewController()
-            destination.modalPresentationStyle = .fullScreen
-            destination.tenantCardSubmission = tenantCardSubmission
-            presentDestination(destination)
-        default:
-            serviceErrorHandler(ApartmentPopupControllerError.unsupportedSubmissionType(submissionType))
-        }
     }
 
     func apartmentPopupViewDidRequestDismiss(_ popupView: ApartmentPopupView) {

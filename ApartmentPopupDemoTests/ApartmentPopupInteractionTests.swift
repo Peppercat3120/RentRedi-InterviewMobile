@@ -174,95 +174,19 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         XCTAssertTrue(tryUnwrap(controller.popupView).applicationPhotoCarousel.isHidden)
     }
 
-    func testApplicationStartCoordinatesStatusAndDestinationImmediately() async {
+    func testStartUsesChallengeMockToOnlyHidePopup() async {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)
         let popup = makePopup()
-        let submission = makeSubmission(type: "application")
-        let destination = ApplyHomeVC()
-        var presentedViewControllers = [UIViewController]()
-        controller.tenantCardSubmission = submission
-        controller.makeApplyHomeViewController = { destination }
-        controller.presentDestination = { presentedViewControllers.append($0) }
-
-        controller.apartmentPopupViewDidRequestStart(popup)
-
-        XCTAssertTrue(popup.isHidden)
-        XCTAssertEqual(controller.hideTenantToDoAlertInvocationCount, 1)
-        XCTAssertEqual(destination.tenantCardSubmission, submission)
-        XCTAssertTrue(destination.homeVC === controller)
-        XCTAssertEqual(destination.modalPresentationStyle, .fullScreen)
-        XCTAssertTrue(presentedViewControllers.first === destination)
-
-        await statusService.waitUntilUpdateCount(1)
-        await assertSingleUpdate(on: statusService, status: .accepted, type: "application")
-    }
-
-    func testPrequalificationStartCoordinatesStatusAndDestination() async {
-        let statusService = RecordingInviteStatusService()
-        let controller = makeController(inviteStatusService: statusService)
-        let popup = makePopup()
-        let submission = makeSubmission(type: "prequalification")
-        let destination = PrequalifyHomeVC()
-        var presentedViewControllers = [UIViewController]()
-        controller.tenantCardSubmission = submission
-        controller.makePrequalifyHomeViewController = { destination }
-        controller.presentDestination = { presentedViewControllers.append($0) }
-
-        controller.apartmentPopupViewDidRequestStart(popup)
-
-        XCTAssertTrue(popup.isHidden)
-        XCTAssertEqual(destination.tenantCardSubmission, submission)
-        XCTAssertEqual(destination.modalPresentationStyle, .fullScreen)
-        XCTAssertTrue(presentedViewControllers.first === destination)
-
-        await statusService.waitUntilUpdateCount(1)
-        await assertSingleUpdate(on: statusService, status: .accepted, type: "prequalification")
-    }
-
-    func testIncompleteStartStillHidesUIWithoutUpdatingOrPresenting() async {
-        let statusService = RecordingInviteStatusService()
-        let controller = makeController(inviteStatusService: statusService)
-        let popup = makePopup()
-        let submission = makeSubmission(type: "application", ownerID: nil)
-        var presentationCount = 0
-        controller.tenantCardSubmission = submission
-        controller.presentDestination = { _ in presentationCount += 1 }
+        controller.tenantCardSubmission = makeSubmission(type: "application")
 
         controller.apartmentPopupViewDidRequestStart(popup)
         await Task.yield()
 
         XCTAssertTrue(popup.isHidden)
-        XCTAssertEqual(controller.hideTenantToDoAlertInvocationCount, 1)
+        XCTAssertEqual(controller.hideTenantToDoAlertInvocationCount, 0)
         let updateCount = await statusService.updates.count
         XCTAssertEqual(updateCount, 0)
-        XCTAssertEqual(presentationCount, 0)
-    }
-
-    func testUnsupportedCompleteStartUpdatesAcceptedWithoutPresenting() async {
-        let statusService = RecordingInviteStatusService()
-        let routeErrorReported = expectation(description: "Route error reported")
-        let controller = makeController(
-            inviteStatusService: statusService,
-            serviceErrorHandler: { error in
-                if let controllerError = error as? ApartmentPopupControllerError,
-                   case .unsupportedSubmissionType = controllerError {
-                    routeErrorReported.fulfill()
-                }
-            }
-        )
-        let popup = makePopup()
-        var presentationCount = 0
-        controller.tenantCardSubmission = makeSubmission(type: "unsupported")
-        controller.presentDestination = { _ in presentationCount += 1 }
-
-        controller.apartmentPopupViewDidRequestStart(popup)
-
-        await fulfillment(of: [routeErrorReported], timeout: 1)
-        await statusService.waitUntilUpdateCount(1)
-        await assertSingleUpdate(on: statusService, status: .accepted, type: "unsupported")
-        XCTAssertTrue(popup.isHidden)
-        XCTAssertEqual(presentationCount, 0)
     }
 
     func testCompleteDismissUpdatesViewedAndHidesOnlyPopup() async {
@@ -292,28 +216,6 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         XCTAssertTrue(popup.isHidden)
         let updateCount = await statusService.updates.count
         XCTAssertEqual(updateCount, 0)
-    }
-
-    func testStatusFailureIsReportedWithoutUndoingNavigation() async {
-        let statusService = RecordingInviteStatusService(error: TestError.expected)
-        let errorReported = expectation(description: "Status error reported")
-        let controller = makeController(
-            inviteStatusService: statusService,
-            serviceErrorHandler: { _ in errorReported.fulfill() }
-        )
-        let popup = makePopup()
-        let destination = ApplyHomeVC()
-        var presentedDestination: UIViewController?
-        controller.tenantCardSubmission = makeSubmission(type: "application")
-        controller.makeApplyHomeViewController = { destination }
-        controller.presentDestination = { presentedDestination = $0 }
-
-        controller.apartmentPopupViewDidRequestStart(popup)
-
-        XCTAssertTrue(popup.isHidden)
-        XCTAssertTrue(presentedDestination === destination)
-        await fulfillment(of: [errorReported], timeout: 1)
-        await assertSingleUpdate(on: statusService, status: .accepted, type: "application")
     }
 
     private var emptyListingDetails: ApartmentListingDetails {

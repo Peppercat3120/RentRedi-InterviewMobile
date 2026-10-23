@@ -30,11 +30,27 @@ final class DemoViewController: RentRediPlusHomeVC {
         applicationPopup = popup
         popupView = popup
 
-        popup.updateViews()
-        popup.applicationPopupBedrooms.text = "2 Bedrooms"
-        popup.applicationPopupBathrooms.text = " • 2 Bathrooms"
-        popup.applicationPopupRentAmount.text = "$2,450/month"
-        popup.applicationPhotosUrls = DemoImageFactory.makeImageURLs()
-        popup.showAndUpdateApplicationUnitAndPropertyPhotos()
+        popup.configure(with: makePopupContent(for: submission))
+
+        hasExistingInviteApplication = true
+        setupTenantToDoAlert()
+        updateToDoAlert(
+            title: "You have been invited to \(submission.verb.capitalizeFirstLetter())) to \(submission.fullAddress).",
+            description: "Tap to start, or go to '\(submission.submissionType ?? "")'",
+            type: .applicationInvite
+        )
+    }
+
+    private func makePopupContent(for submission: DemoTenantCardSubmission) -> ApartmentPopupContent {
+        ApartmentPopupContent(
+            title: "Invite to \(submission.verb.capitalizeFirstLetter())",
+            bedroomText: "2 Bedrooms",
+            bathroomText: " • 2 Bathrooms",
+            addressText: "\(submission.address ?? "Error, Not Available"), Unit \(submission.unitID ?? "")",
+            regionText: "\(submission.city ?? ""), \(submission.state ?? "") \(submission.zip ?? "")",
+            rentText: "$2,450/month",
+            primaryActionTitle: applyPrequalifyVerb(noun: submission.submissionType ?? "").capitalizeFirstLetter(),
+            media: .photos(DemoImageFactory.makeImageURLs().map(PhotoCarouselItem.url))
+        )
     }
 }

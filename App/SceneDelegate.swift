@@ -12,7 +12,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let menuViewController = DemoMenuViewController(
             makeApartmentDemo: {
-                let controller = DemoViewController(
+                let controller = ApartmentPopupViewController(
                     listingService: DemoApartmentListingService(
                         details: DemoApartmentPopupFixture.makeListingDetails()
                     ),

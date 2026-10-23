@@ -174,17 +174,35 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         XCTAssertTrue(tryUnwrap(controller.popupView).applicationPhotoCarousel.isHidden)
     }
 
+    func testSubmissionTypesConfigureExpectedPrimaryActionTitles() {
+        let controller = makeController()
+        controller.loadViewIfNeeded()
+
+        for (type, expectedTitle) in [
+            ("application", "Apply"),
+            ("prequalification", "Prequalify"),
+            ("unsupported", "Apply")
+        ] {
+            controller.showApartmentPopup(for: makeSubmission(type: type))
+
+            XCTAssertEqual(
+                tryUnwrap(controller.popupView).startApplicationButton.title(for: .normal),
+                expectedTitle
+            )
+        }
+    }
+
     func testStartUsesChallengeMockToOnlyHidePopup() async {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)
-        let popup = makePopup()
-        controller.tenantCardSubmission = makeSubmission(type: "application")
+        controller.loadViewIfNeeded()
+        controller.showApartmentPopup(for: makeSubmission(type: "application"))
+        let popup = tryUnwrap(controller.popupView)
 
         controller.apartmentPopupViewDidRequestStart(popup)
         await Task.yield()
 
         XCTAssertTrue(popup.isHidden)
-        XCTAssertEqual(controller.hideTenantToDoAlertInvocationCount, 0)
         let updateCount = await statusService.updates.count
         XCTAssertEqual(updateCount, 0)
     }
@@ -192,13 +210,13 @@ final class ApartmentPopupInteractionTests: XCTestCase {
     func testCompleteDismissUpdatesViewedAndHidesOnlyPopup() async {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)
-        let popup = makePopup()
-        controller.tenantCardSubmission = makeSubmission(type: "application")
+        controller.loadViewIfNeeded()
+        controller.showApartmentPopup(for: makeSubmission(type: "application"))
+        let popup = tryUnwrap(controller.popupView)
 
         controller.apartmentPopupViewDidRequestDismiss(popup)
 
         XCTAssertTrue(popup.isHidden)
-        XCTAssertEqual(controller.hideTenantToDoAlertInvocationCount, 0)
         await statusService.waitUntilUpdateCount(1)
         await assertSingleUpdate(on: statusService, status: .viewed, type: "application")
     }
@@ -206,9 +224,10 @@ final class ApartmentPopupInteractionTests: XCTestCase {
     func testIncompleteDismissHidesPopupWithoutUpdating() async {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)
-        let popup = makePopup()
         let submission = makeSubmission(type: "application", renterID: nil)
-        controller.tenantCardSubmission = submission
+        controller.loadViewIfNeeded()
+        controller.showApartmentPopup(for: submission)
+        let popup = tryUnwrap(controller.popupView)
 
         controller.apartmentPopupViewDidRequestDismiss(popup)
         await Task.yield()
@@ -216,6 +235,28 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         XCTAssertTrue(popup.isHidden)
         let updateCount = await statusService.updates.count
         XCTAssertEqual(updateCount, 0)
+    }
+
+    func testDismissAfterReplacingPopupUsesNewestSubmission() async {
+        let statusService = RecordingInviteStatusService()
+        let controller = makeController(inviteStatusService: statusService)
+        controller.loadViewIfNeeded()
+        controller.showApartmentPopup(
+            for: makeSubmission(type: "application", renterID: "first-renter")
+        )
+        controller.showApartmentPopup(
+            for: makeSubmission(type: "prequalification", renterID: "current-renter")
+        )
+        let popup = tryUnwrap(controller.popupView)
+
+        controller.apartmentPopupViewDidRequestDismiss(popup)
+
+        await statusService.waitUntilUpdateCount(1)
+        let updates = await statusService.updates
+        XCTAssertEqual(updates.count, 1)
+        XCTAssertEqual(updates.first?.status, .viewed)
+        XCTAssertEqual(updates.first?.invite.renterID, "current-renter")
+        XCTAssertEqual(updates.first?.invite.submissionType, "prequalification")
     }
 
     private var emptyListingDetails: ApartmentListingDetails {
@@ -231,8 +272,8 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         listingService: ApartmentListingLoading? = nil,
         inviteStatusService: RecordingInviteStatusService? = nil,
         serviceErrorHandler: @escaping (Error) -> Void = { _ in }
-    ) -> DemoViewController {
-        DemoViewController(
+    ) -> ApartmentPopupViewController {
+        ApartmentPopupViewController(
             listingService: listingService ?? DemoApartmentListingService(details: emptyListingDetails),
             inviteStatusService: inviteStatusService ?? RecordingInviteStatusService(),
             serviceErrorHandler: serviceErrorHandler

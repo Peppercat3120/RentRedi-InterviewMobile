@@ -3,9 +3,14 @@ import UIKit
 // Original dependency import (not available in the standalone demo): import Alamofire
 // Original dependency import (not available in the standalone demo): import SwiftyJSON
 
+protocol ApartmentPopupViewDelegate: AnyObject {
+    func apartmentPopupViewDidRequestStart(_ popupView: ApartmentPopupView)
+    func apartmentPopupViewDidRequestDismiss(_ popupView: ApartmentPopupView)
+}
+
 class ApartmentPopupView: UIView {
 
-    weak var delegate: RentRediPlusHomeVC?
+    weak var delegate: ApartmentPopupViewDelegate?
     var applicationPhotosUrls = [URL]()
     var tenantCardSubmission: DemoTenantCardSubmission?
 
@@ -19,49 +24,10 @@ class ApartmentPopupView: UIView {
     @IBOutlet weak var applicationInviteImage: UIImageView!
     @IBOutlet weak var startApplicationButton: roundedButton!
     @IBAction func startApplicationTapped(_ sender: Any) {
-        //hide popups
-        delegate?.applicationPopup.isHidden = true
-        delegate?.hideTenantToDoAlert()
-        //if tenant card is created
-        if let tenantCardSubmission = self.delegate?.tenantCardSubmission, let submissionType = tenantCardSubmission.submissionType, let ownerID = tenantCardSubmission.ownerID, let propertyID = tenantCardSubmission.propertyID, let unitID = tenantCardSubmission.unitID, let renterID = tenantCardSubmission.renterID {
-                //set status as accepted
-            self.delegate?.ref.child("inviteTenant").child("\(ownerID)\(propertyID)\(unitID)\(renterID)_\(submissionType)").child("inviteStatus").setValue("accepted")
-
-            //continue existing invite application
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            //depending on the submission type of the tenant card submission
-            switch tenantCardSubmission.submissionType {
-            //if the tenant card submission type is an application
-            case "application":
-                let vc = storyboard.instantiateViewController(withIdentifier: "applyHomeScreen") as! ApplyHomeVC
-                vc.modalPresentationStyle = .fullScreen
-                vc.tenantCardSubmission = tenantCardSubmission
-                vc.homeVC = self.delegate
-                //have the delegate(homeVC) present apply home screen
-                self.delegate?.present(vc, animated: true, completion: nil)
-            //if the tenant card submission type is an prequalification
-            case "prequalification":
-                let vc = storyboard.instantiateViewController(withIdentifier: "prequalifyHomeScreen") as! PrequalifyHomeVC
-                vc.modalPresentationStyle = .fullScreen
-                vc.tenantCardSubmission = tenantCardSubmission
-                //have the delegate(homeVC) present prequalify home screen
-                self.delegate?.present(vc, animated: true, completion: nil)
-            //else it is an unknow type
-            default:
-                //there was no submission type, log the error
-                DatabaseFunctions().log(message: "Error: No submission type found")
-                return
-            }
-        }
+        delegate?.apartmentPopupViewDidRequestStart(self)
     }
     @IBAction func dismissApplicationTapped(_ sender: Any) {
-        // if the variables necessary for updating the inviteStatus are present, then set the status as viewed
-        if let tenantCardSubmission = self.delegate?.tenantCardSubmission, let submissionType = tenantCardSubmission.submissionType, let ownerID = tenantCardSubmission.ownerID, let propertyID = tenantCardSubmission.propertyID, let unitID = tenantCardSubmission.unitID, let renterID = tenantCardSubmission.renterID {
-                //set status as viewed
-            self.delegate?.ref.child("inviteTenant").child("\(ownerID)\(propertyID)\(unitID)\(renterID)_\(submissionType)").child("inviteStatus").setValue("viewed")
-        }
-        //hide the application popup
-        delegate?.applicationPopup.isHidden = true
+        delegate?.apartmentPopupViewDidRequestDismiss(self)
     }
 
     let nibName = "ApartmentPopupView"

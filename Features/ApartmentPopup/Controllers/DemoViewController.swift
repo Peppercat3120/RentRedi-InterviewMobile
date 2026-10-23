@@ -2,6 +2,17 @@ import UIKit
 
 final class DemoViewController: RentRediPlusHomeVC {
     private var popupView: ApartmentPopupView?
+    var makeApplyHomeViewController: () -> ApplyHomeVC = {
+        UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "applyHomeScreen") as! ApplyHomeVC
+    }
+    var makePrequalifyHomeViewController: () -> PrequalifyHomeVC = {
+        UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "prequalifyHomeScreen") as! PrequalifyHomeVC
+    }
+    lazy var presentDestination: (UIViewController) -> Void = { [weak self] destination in
+        self?.present(destination, animated: true, completion: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,5 +63,80 @@ final class DemoViewController: RentRediPlusHomeVC {
             primaryActionTitle: applyPrequalifyVerb(noun: submission.submissionType ?? "").capitalizeFirstLetter(),
             media: .photos(DemoImageFactory.makeImageURLs().map(PhotoCarouselItem.url))
         )
+    }
+}
+
+extension DemoViewController: ApartmentPopupViewDelegate {
+    func apartmentPopupViewDidRequestStart(_ popupView: ApartmentPopupView) {
+        popupView.isHidden = true
+        hideTenantToDoAlert()
+
+        guard let tenantCardSubmission,
+              let submissionType = tenantCardSubmission.submissionType,
+              let ownerID = tenantCardSubmission.ownerID,
+              let propertyID = tenantCardSubmission.propertyID,
+              let unitID = tenantCardSubmission.unitID,
+              let renterID = tenantCardSubmission.renterID else {
+            return
+        }
+
+        updateInviteStatus(
+            "accepted",
+            ownerID: ownerID,
+            propertyID: propertyID,
+            unitID: unitID,
+            renterID: renterID,
+            submissionType: submissionType
+        )
+
+        switch submissionType {
+        case "application":
+            let destination = makeApplyHomeViewController()
+            destination.modalPresentationStyle = .fullScreen
+            destination.tenantCardSubmission = tenantCardSubmission
+            destination.homeVC = self
+            presentDestination(destination)
+        case "prequalification":
+            let destination = makePrequalifyHomeViewController()
+            destination.modalPresentationStyle = .fullScreen
+            destination.tenantCardSubmission = tenantCardSubmission
+            presentDestination(destination)
+        default:
+            DatabaseFunctions().log(message: "Error: No submission type found")
+        }
+    }
+
+    func apartmentPopupViewDidRequestDismiss(_ popupView: ApartmentPopupView) {
+        if let tenantCardSubmission,
+           let submissionType = tenantCardSubmission.submissionType,
+           let ownerID = tenantCardSubmission.ownerID,
+           let propertyID = tenantCardSubmission.propertyID,
+           let unitID = tenantCardSubmission.unitID,
+           let renterID = tenantCardSubmission.renterID {
+            updateInviteStatus(
+                "viewed",
+                ownerID: ownerID,
+                propertyID: propertyID,
+                unitID: unitID,
+                renterID: renterID,
+                submissionType: submissionType
+            )
+        }
+
+        popupView.isHidden = true
+    }
+
+    private func updateInviteStatus(
+        _ status: String,
+        ownerID: String,
+        propertyID: String,
+        unitID: String,
+        renterID: String,
+        submissionType: String
+    ) {
+        ref.child("inviteTenant")
+            .child("\(ownerID)\(propertyID)\(unitID)\(renterID)_\(submissionType)")
+            .child("inviteStatus")
+            .setValue(status)
     }
 }

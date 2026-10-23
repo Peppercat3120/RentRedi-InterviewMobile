@@ -9,8 +9,11 @@ class RentRediPlusHomeVC: UIViewController {
     var tenantCardSubmission: DemoTenantCardSubmission?
     var hasExistingInviteApplication = false
     let ref = MockDatabaseReference()
+    private(set) var hideTenantToDoAlertInvocationCount = 0
 
-    func hideTenantToDoAlert() {}
+    func hideTenantToDoAlert() {
+        hideTenantToDoAlertInvocationCount += 1
+    }
     func setupTenantToDoAlert() {}
 
     func applyPrequalifyVerb(noun: String) -> String {

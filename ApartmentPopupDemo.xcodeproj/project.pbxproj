@@ -30,6 +30,7 @@
 		100000000000000000000016 /* ApartmentPopupContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000001B /* ApartmentPopupContent.swift */; };
 		100000000000000000000017 /* ApartmentPopupView+LegacyListingLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000001C /* ApartmentPopupView+LegacyListingLoading.swift */; };
 		100000000000000000000018 /* ApartmentPopupPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000001D /* ApartmentPopupPresentationTests.swift */; };
+		100000000000000000000019 /* ApartmentPopupInteractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000001E /* ApartmentPopupInteractionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		20000000000000000000001B /* ApartmentPopupContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentPopupContent.swift; sourceTree = "<group>"; };
 		20000000000000000000001C /* ApartmentPopupView+LegacyListingLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ApartmentPopupView+LegacyListingLoading.swift"; sourceTree = "<group>"; };
 		20000000000000000000001D /* ApartmentPopupPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentPopupPresentationTests.swift; sourceTree = "<group>"; };
+		20000000000000000000001E /* ApartmentPopupInteractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentPopupInteractionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 			children = (
 				200000000000000000000018 /* PhotoCarouselIntegrationTests.swift */,
 				20000000000000000000001D /* ApartmentPopupPresentationTests.swift */,
+				20000000000000000000001E /* ApartmentPopupInteractionTests.swift */,
 			);
 			path = ApartmentPopupDemoTests;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 			files = (
 				100000000000000000000014 /* PhotoCarouselIntegrationTests.swift in Sources */,
 				100000000000000000000018 /* ApartmentPopupPresentationTests.swift in Sources */,
+				100000000000000000000019 /* ApartmentPopupInteractionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

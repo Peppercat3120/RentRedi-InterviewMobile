@@ -46,7 +46,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         let secondURL = URL(string: "https://example.com/property.jpg")!
         let listingService = ControlledListingService()
         let controller = makeController(listingService: listingService)
-        let submission = makeCompleteSubmission(type: "application")
+        let submission = makeSubmission(type: "application")
 
         controller.loadViewIfNeeded()
         controller.showApartmentPopup(for: submission)
@@ -73,7 +73,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
     func testEmptyListingDetailsKeepDefaultInviteAndHideOptionalLabels() async {
         let listingService = ControlledListingService()
         let controller = makeController(listingService: listingService)
-        let submission = makeCompleteSubmission(type: "application")
+        let submission = makeSubmission(type: "application")
 
         controller.loadViewIfNeeded()
         controller.showApartmentPopup(for: submission)
@@ -100,7 +100,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
             listingService: DemoApartmentListingService(error: TestError.expected),
             serviceErrorHandler: { _ in errorReported.fulfill() }
         )
-        let submission = makeCompleteSubmission(type: "application")
+        let submission = makeSubmission(type: "application")
 
         controller.loadViewIfNeeded()
         controller.showApartmentPopup(for: submission)
@@ -120,9 +120,11 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         let currentURL = URL(string: "https://example.com/current.jpg")!
         let listingService = ControlledListingService()
         let controller = makeController(listingService: listingService)
-        let firstSubmission = makeCompleteSubmission(type: "application")
-        let secondSubmission = makeCompleteSubmission(type: "prequalification")
-        secondSubmission.unitID = "unit-current"
+        let firstSubmission = makeSubmission(type: "application")
+        let secondSubmission = makeSubmission(
+            type: "prequalification",
+            unitID: "unit-current"
+        )
 
         controller.loadViewIfNeeded()
         controller.showApartmentPopup(for: firstSubmission)
@@ -161,8 +163,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
     func testMissingListingIdentifiersDoNotCallListingService() async {
         let listingService = ControlledListingService()
         let controller = makeController(listingService: listingService)
-        let submission = makeCompleteSubmission(type: "application")
-        submission.ownerID = nil
+        let submission = makeSubmission(type: "application", ownerID: nil)
 
         controller.loadViewIfNeeded()
         controller.showApartmentPopup(for: submission)
@@ -177,7 +178,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)
         let popup = makePopup()
-        let submission = makeCompleteSubmission(type: "application")
+        let submission = makeSubmission(type: "application")
         let destination = ApplyHomeVC()
         var presentedViewControllers = [UIViewController]()
         controller.tenantCardSubmission = submission
@@ -188,7 +189,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
 
         XCTAssertTrue(popup.isHidden)
         XCTAssertEqual(controller.hideTenantToDoAlertInvocationCount, 1)
-        XCTAssertTrue(destination.tenantCardSubmission === submission)
+        XCTAssertEqual(destination.tenantCardSubmission, submission)
         XCTAssertTrue(destination.homeVC === controller)
         XCTAssertEqual(destination.modalPresentationStyle, .fullScreen)
         XCTAssertTrue(presentedViewControllers.first === destination)
@@ -201,7 +202,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)
         let popup = makePopup()
-        let submission = makeCompleteSubmission(type: "prequalification")
+        let submission = makeSubmission(type: "prequalification")
         let destination = PrequalifyHomeVC()
         var presentedViewControllers = [UIViewController]()
         controller.tenantCardSubmission = submission
@@ -211,7 +212,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         controller.apartmentPopupViewDidRequestStart(popup)
 
         XCTAssertTrue(popup.isHidden)
-        XCTAssertTrue(destination.tenantCardSubmission === submission)
+        XCTAssertEqual(destination.tenantCardSubmission, submission)
         XCTAssertEqual(destination.modalPresentationStyle, .fullScreen)
         XCTAssertTrue(presentedViewControllers.first === destination)
 
@@ -223,8 +224,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)
         let popup = makePopup()
-        let submission = makeCompleteSubmission(type: "application")
-        submission.ownerID = nil
+        let submission = makeSubmission(type: "application", ownerID: nil)
         var presentationCount = 0
         controller.tenantCardSubmission = submission
         controller.presentDestination = { _ in presentationCount += 1 }
@@ -253,7 +253,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         )
         let popup = makePopup()
         var presentationCount = 0
-        controller.tenantCardSubmission = makeCompleteSubmission(type: "unsupported")
+        controller.tenantCardSubmission = makeSubmission(type: "unsupported")
         controller.presentDestination = { _ in presentationCount += 1 }
 
         controller.apartmentPopupViewDidRequestStart(popup)
@@ -269,7 +269,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)
         let popup = makePopup()
-        controller.tenantCardSubmission = makeCompleteSubmission(type: "application")
+        controller.tenantCardSubmission = makeSubmission(type: "application")
 
         controller.apartmentPopupViewDidRequestDismiss(popup)
 
@@ -283,8 +283,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)
         let popup = makePopup()
-        let submission = makeCompleteSubmission(type: "application")
-        submission.renterID = nil
+        let submission = makeSubmission(type: "application", renterID: nil)
         controller.tenantCardSubmission = submission
 
         controller.apartmentPopupViewDidRequestDismiss(popup)
@@ -305,7 +304,7 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         let popup = makePopup()
         let destination = ApplyHomeVC()
         var presentedDestination: UIViewController?
-        controller.tenantCardSubmission = makeCompleteSubmission(type: "application")
+        controller.tenantCardSubmission = makeSubmission(type: "application")
         controller.makeApplyHomeViewController = { destination }
         controller.presentDestination = { presentedDestination = $0 }
 
@@ -342,19 +341,23 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         ApartmentPopupView(frame: CGRect(x: 0, y: 0, width: 414, height: 896))
     }
 
-    private func makeCompleteSubmission(type: String) -> DemoTenantCardSubmission {
-        let submission = DemoTenantCardSubmission(
+    private func makeSubmission(
+        type: String,
+        ownerID: String? = "owner-1",
+        unitID: String? = "unit-3",
+        renterID: String? = "renter-4"
+    ) -> ApartmentPopupSubmission {
+        ApartmentPopupSubmission(
+            submissionType: type,
+            ownerID: ownerID,
+            propertyID: "property-2",
+            unitID: unitID,
+            renterID: renterID,
             address: "123 Maple Street",
-            unitID: "unit-3",
             city: "Austin",
             state: "TX",
             zip: "78701"
         )
-        submission.submissionType = type
-        submission.ownerID = "owner-1"
-        submission.propertyID = "property-2"
-        submission.renterID = "renter-4"
-        return submission
     }
 
     private func assertSingleUpdate(

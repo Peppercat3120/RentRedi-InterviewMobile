@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		100000000000000000000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000001 /* AppDelegate.swift */; };
 		100000000000000000000002 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000002 /* DemoViewController.swift */; };
-		100000000000000000000003 /* DemoTenantCardSubmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000003 /* DemoTenantCardSubmission.swift */; };
+		100000000000000000000003 /* ApartmentPopupSubmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000003 /* ApartmentPopupSubmission.swift */; };
 		100000000000000000000004 /* ApartmentPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000004 /* ApartmentPopupView.swift */; };
 		100000000000000000000005 /* ApartmentPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000005 /* ApartmentPopupView.xib */; };
 		100000000000000000000006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000006 /* Assets.xcassets */; };
@@ -33,6 +33,8 @@
 		10000000000000000000001B /* FirebaseApartmentPopupServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000020 /* FirebaseApartmentPopupServices.swift */; };
 		10000000000000000000001C /* DemoApartmentPopupServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000021 /* DemoApartmentPopupServices.swift */; };
 		10000000000000000000001D /* ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000022 /* ImageLoading.swift */; };
+		10000000000000000000001E /* DemoApartmentPopupFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000023 /* DemoApartmentPopupFixture.swift */; };
+		10000000000000000000001F /* ApartmentPopupSubmissionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000024 /* ApartmentPopupSubmissionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,12 +50,12 @@
 /* Begin PBXFileReference section */
 		200000000000000000000001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		200000000000000000000002 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
-		200000000000000000000003 /* DemoTenantCardSubmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTenantCardSubmission.swift; sourceTree = "<group>"; };
+		200000000000000000000003 /* ApartmentPopupSubmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentPopupSubmission.swift; sourceTree = "<group>"; };
 		200000000000000000000004 /* ApartmentPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentPopupView.swift; sourceTree = "<group>"; };
 		200000000000000000000005 /* ApartmentPopupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ApartmentPopupView.xib; sourceTree = "<group>"; };
 		200000000000000000000006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		200000000000000000000007 /* ApartmentPopupDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ApartmentPopupDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		200000000000000000000008 /* TenantCardSubmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenantCardSubmission.swift; sourceTree = "<group>"; };
+		200000000000000000000008 /* ProductionTenantCardSubmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionTenantCardSubmission.swift; sourceTree = "<group>"; };
 		200000000000000000000009 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		20000000000000000000000A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		20000000000000000000000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,6 +79,8 @@
 		200000000000000000000020 /* FirebaseApartmentPopupServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseApartmentPopupServices.swift; sourceTree = "<group>"; };
 		200000000000000000000021 /* DemoApartmentPopupServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApartmentPopupServices.swift; sourceTree = "<group>"; };
 		200000000000000000000022 /* ImageLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoading.swift; sourceTree = "<group>"; };
+		200000000000000000000023 /* DemoApartmentPopupFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApartmentPopupFixture.swift; sourceTree = "<group>"; };
+		200000000000000000000024 /* ApartmentPopupSubmissionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentPopupSubmissionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,7 +166,7 @@
 		400000000000000000000007 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				200000000000000000000003 /* DemoTenantCardSubmission.swift */,
+				200000000000000000000003 /* ApartmentPopupSubmission.swift */,
 				20000000000000000000001B /* ApartmentPopupContent.swift */,
 			);
 			path = Models;
@@ -216,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				20000000000000000000000F /* DemoImageFactory.swift */,
+				200000000000000000000023 /* DemoApartmentPopupFixture.swift */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -234,7 +239,7 @@
 		40000000000000000000000F /* Reference */ = {
 			isa = PBXGroup;
 			children = (
-				200000000000000000000008 /* TenantCardSubmission.swift */,
+				200000000000000000000008 /* ProductionTenantCardSubmission.swift */,
 			);
 			path = Reference;
 			sourceTree = "<group>";
@@ -265,6 +270,7 @@
 				200000000000000000000018 /* PhotoCarouselIntegrationTests.swift */,
 				20000000000000000000001D /* ApartmentPopupPresentationTests.swift */,
 				20000000000000000000001E /* ApartmentPopupInteractionTests.swift */,
+				200000000000000000000024 /* ApartmentPopupSubmissionTests.swift */,
 			);
 			path = ApartmentPopupDemoTests;
 			sourceTree = "<group>";
@@ -387,7 +393,7 @@
 				100000000000000000000001 /* AppDelegate.swift in Sources */,
 				100000000000000000000007 /* SceneDelegate.swift in Sources */,
 				100000000000000000000002 /* DemoViewController.swift in Sources */,
-				100000000000000000000003 /* DemoTenantCardSubmission.swift in Sources */,
+				100000000000000000000003 /* ApartmentPopupSubmission.swift in Sources */,
 				100000000000000000000016 /* ApartmentPopupContent.swift in Sources */,
 				10000000000000000000001A /* ApartmentPopupDataServices.swift in Sources */,
 				10000000000000000000001B /* FirebaseApartmentPopupServices.swift in Sources */,
@@ -395,6 +401,7 @@
 				100000000000000000000009 /* RoundedButton.swift in Sources */,
 				10000000000000000000000A /* String+Capitalization.swift in Sources */,
 				10000000000000000000000B /* DemoImageFactory.swift in Sources */,
+				10000000000000000000001E /* DemoApartmentPopupFixture.swift in Sources */,
 				10000000000000000000000C /* RentRediPlusHomeVC.swift in Sources */,
 				10000000000000000000001C /* DemoApartmentPopupServices.swift in Sources */,
 				10000000000000000000000E /* DemoDestinationViewControllers.swift in Sources */,
@@ -413,6 +420,7 @@
 				100000000000000000000014 /* PhotoCarouselIntegrationTests.swift in Sources */,
 				100000000000000000000018 /* ApartmentPopupPresentationTests.swift in Sources */,
 				100000000000000000000019 /* ApartmentPopupInteractionTests.swift in Sources */,
+				10000000000000000000001F /* ApartmentPopupSubmissionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

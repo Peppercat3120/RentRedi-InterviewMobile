@@ -15,7 +15,7 @@ enum ApartmentPopupControllerError: LocalizedError {
 final class DemoViewController: RentRediPlusHomeVC {
     private let listingService: ApartmentListingLoading
     private let inviteStatusService: InviteStatusUpdating
-    private let initialSubmission: DemoTenantCardSubmission?
+    private let initialSubmission: ApartmentPopupSubmission?
     private let serviceErrorHandler: (Error) -> Void
     private var listingTask: Task<Void, Never>?
 
@@ -35,7 +35,7 @@ final class DemoViewController: RentRediPlusHomeVC {
     init(
         listingService: ApartmentListingLoading,
         inviteStatusService: InviteStatusUpdating,
-        initialSubmission: DemoTenantCardSubmission? = nil,
+        initialSubmission: ApartmentPopupSubmission? = nil,
         serviceErrorHandler: @escaping (Error) -> Void = { print($0) }
     ) {
         self.listingService = listingService
@@ -62,7 +62,7 @@ final class DemoViewController: RentRediPlusHomeVC {
         }
     }
 
-    func showApartmentPopup(for submission: DemoTenantCardSubmission) {
+    func showApartmentPopup(for submission: ApartmentPopupSubmission) {
         listingTask?.cancel()
         popupView?.removeFromSuperview()
 
@@ -113,7 +113,7 @@ final class DemoViewController: RentRediPlusHomeVC {
     }
 
     private func makePopupContent(
-        for submission: DemoTenantCardSubmission,
+        for submission: ApartmentPopupSubmission,
         listingDetails: ApartmentListingDetails?
     ) -> ApartmentPopupContent {
         let photoURLs = listingDetails?.photoURLs ?? []
@@ -138,7 +138,7 @@ final class DemoViewController: RentRediPlusHomeVC {
     }
 
     private func makeListingIdentifier(
-        from submission: DemoTenantCardSubmission
+        from submission: ApartmentPopupSubmission
     ) -> ApartmentListingIdentifier? {
         guard let ownerID = submission.ownerID,
               let propertyID = submission.propertyID,
@@ -153,7 +153,7 @@ final class DemoViewController: RentRediPlusHomeVC {
     }
 
     private func makeInviteIdentifier(
-        from submission: DemoTenantCardSubmission
+        from submission: ApartmentPopupSubmission
     ) -> InviteIdentifier? {
         guard let submissionType = submission.submissionType,
               let ownerID = submission.ownerID,

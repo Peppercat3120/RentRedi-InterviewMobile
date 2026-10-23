@@ -1,3 +1,6 @@
+// Reference-only snapshot of the production model. This file is intentionally
+// excluded from every target in the standalone assessment project.
+
 import Foundation
 import UIKit
 import Firebase

@@ -1,10 +1,10 @@
 import UIKit
 
 final class ApplyHomeVC: UIViewController {
-    var tenantCardSubmission: DemoTenantCardSubmission?
+    var tenantCardSubmission: ApartmentPopupSubmission?
     weak var homeVC: RentRediPlusHomeVC?
 }
 
 final class PrequalifyHomeVC: UIViewController {
-    var tenantCardSubmission: DemoTenantCardSubmission?
+    var tenantCardSubmission: ApartmentPopupSubmission?
 }

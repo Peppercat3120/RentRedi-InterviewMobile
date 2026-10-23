@@ -6,7 +6,7 @@ enum TenantToDoAlertType {
 
 class RentRediPlusHomeVC: UIViewController {
     var applicationPopup = UIView()
-    var tenantCardSubmission: DemoTenantCardSubmission?
+    var tenantCardSubmission: ApartmentPopupSubmission?
     var hasExistingInviteApplication = false
     private(set) var hideTenantToDoAlertInvocationCount = 0
 

@@ -11,7 +11,7 @@ class ApartmentPopupView: UIView, UICollectionViewDelegate, UICollectionViewData
     private let apartmentPhotoReuseIdentifier = "apartmentPhotoCell"
     weak var delegate: RentRediPlusHomeVC?
     var applicationPhotosUrls = [URL]()
-    var tenantCardSubmission: TenantCardSubmission?
+    var tenantCardSubmission: DemoTenantCardSubmission?
 
     @IBOutlet weak var applicationPopupTitle: UILabel!
     @IBOutlet weak var applicationPopupBedrooms: UILabel!

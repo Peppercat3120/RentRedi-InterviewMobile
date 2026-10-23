@@ -9,17 +9,25 @@
 /* Begin PBXBuildFile section */
 		100000000000000000000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000001 /* AppDelegate.swift */; };
 		100000000000000000000002 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000002 /* DemoViewController.swift */; };
-		100000000000000000000003 /* DemoSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000003 /* DemoSupport.swift */; };
+		100000000000000000000003 /* DemoTenantCardSubmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000003 /* DemoTenantCardSubmission.swift */; };
 		100000000000000000000004 /* ApartmentPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000004 /* ApartmentPopupView.swift */; };
 		100000000000000000000005 /* ApartmentPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000005 /* ApartmentPopupView.xib */; };
 		100000000000000000000006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000006 /* Assets.xcassets */; };
 		100000000000000000000007 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000A /* SceneDelegate.swift */; };
+		100000000000000000000008 /* ApplicationApartmentPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000C /* ApplicationApartmentPhotoCell.swift */; };
+		100000000000000000000009 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000D /* RoundedButton.swift */; };
+		10000000000000000000000A /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000E /* String+Capitalization.swift */; };
+		10000000000000000000000B /* DemoImageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000F /* DemoImageFactory.swift */; };
+		10000000000000000000000C /* RentRediPlusHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000010 /* RentRediPlusHomeVC.swift */; };
+		10000000000000000000000D /* MockDatabaseReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000011 /* MockDatabaseReference.swift */; };
+		10000000000000000000000E /* DemoDestinationViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000012 /* DemoDestinationViewControllers.swift */; };
+		10000000000000000000000F /* DatabaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000013 /* DatabaseFunctions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		200000000000000000000001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		200000000000000000000002 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
-		200000000000000000000003 /* DemoSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSupport.swift; sourceTree = "<group>"; };
+		200000000000000000000003 /* DemoTenantCardSubmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTenantCardSubmission.swift; sourceTree = "<group>"; };
 		200000000000000000000004 /* ApartmentPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentPopupView.swift; sourceTree = "<group>"; };
 		200000000000000000000005 /* ApartmentPopupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ApartmentPopupView.xib; sourceTree = "<group>"; };
 		200000000000000000000006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -28,6 +36,14 @@
 		200000000000000000000009 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		20000000000000000000000A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		20000000000000000000000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20000000000000000000000C /* ApplicationApartmentPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationApartmentPhotoCell.swift; sourceTree = "<group>"; };
+		20000000000000000000000D /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		20000000000000000000000E /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
+		20000000000000000000000F /* DemoImageFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoImageFactory.swift; sourceTree = "<group>"; };
+		200000000000000000000010 /* RentRediPlusHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentRediPlusHomeVC.swift; sourceTree = "<group>"; };
+		200000000000000000000011 /* MockDatabaseReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseReference.swift; sourceTree = "<group>"; };
+		200000000000000000000012 /* DemoDestinationViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDestinationViewControllers.swift; sourceTree = "<group>"; };
+		200000000000000000000013 /* DatabaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFunctions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,15 +60,13 @@
 		400000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				200000000000000000000001 /* AppDelegate.swift */,
-				20000000000000000000000A /* SceneDelegate.swift */,
+				400000000000000000000003 /* App */,
+				400000000000000000000004 /* Features */,
+				400000000000000000000009 /* Shared */,
+				40000000000000000000000C /* Demo */,
+				40000000000000000000000F /* Reference */,
 				20000000000000000000000B /* Info.plist */,
-				200000000000000000000002 /* DemoViewController.swift */,
-				200000000000000000000003 /* DemoSupport.swift */,
-				200000000000000000000004 /* ApartmentPopupView.swift */,
-				200000000000000000000005 /* ApartmentPopupView.xib */,
 				200000000000000000000006 /* Assets.xcassets */,
-				200000000000000000000008 /* TenantCardSubmission.swift */,
 				200000000000000000000009 /* README.md */,
 				400000000000000000000002 /* Products */,
 			);
@@ -64,6 +78,120 @@
 				200000000000000000000007 /* ApartmentPopupDemo.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		400000000000000000000003 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000001 /* AppDelegate.swift */,
+				20000000000000000000000A /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		400000000000000000000004 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				400000000000000000000005 /* ApartmentPopup */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		400000000000000000000005 /* ApartmentPopup */ = {
+			isa = PBXGroup;
+			children = (
+				400000000000000000000006 /* Controllers */,
+				400000000000000000000007 /* Models */,
+				400000000000000000000008 /* Views */,
+			);
+			path = ApartmentPopup;
+			sourceTree = "<group>";
+		};
+		400000000000000000000006 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000002 /* DemoViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		400000000000000000000007 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000003 /* DemoTenantCardSubmission.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		400000000000000000000008 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000004 /* ApartmentPopupView.swift */,
+				200000000000000000000005 /* ApartmentPopupView.xib */,
+				20000000000000000000000C /* ApplicationApartmentPhotoCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		400000000000000000000009 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				40000000000000000000000A /* Controls */,
+				40000000000000000000000B /* Extensions */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000A /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000000D /* RoundedButton.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000000E /* String+Capitalization.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000C /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				40000000000000000000000D /* Fixtures */,
+				40000000000000000000000E /* Support */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000D /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000000F /* DemoImageFactory.swift */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000E /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000010 /* RentRediPlusHomeVC.swift */,
+				200000000000000000000011 /* MockDatabaseReference.swift */,
+				200000000000000000000012 /* DemoDestinationViewControllers.swift */,
+				200000000000000000000013 /* DatabaseFunctions.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000F /* Reference */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000008 /* TenantCardSubmission.swift */,
+			);
+			path = Reference;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,8 +270,16 @@
 				100000000000000000000001 /* AppDelegate.swift in Sources */,
 				100000000000000000000007 /* SceneDelegate.swift in Sources */,
 				100000000000000000000002 /* DemoViewController.swift in Sources */,
-				100000000000000000000003 /* DemoSupport.swift in Sources */,
+				100000000000000000000003 /* DemoTenantCardSubmission.swift in Sources */,
 				100000000000000000000004 /* ApartmentPopupView.swift in Sources */,
+				100000000000000000000008 /* ApplicationApartmentPhotoCell.swift in Sources */,
+				100000000000000000000009 /* RoundedButton.swift in Sources */,
+				10000000000000000000000A /* String+Capitalization.swift in Sources */,
+				10000000000000000000000B /* DemoImageFactory.swift in Sources */,
+				10000000000000000000000C /* RentRediPlusHomeVC.swift in Sources */,
+				10000000000000000000000D /* MockDatabaseReference.swift in Sources */,
+				10000000000000000000000E /* DemoDestinationViewControllers.swift in Sources */,
+				10000000000000000000000F /* DatabaseFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

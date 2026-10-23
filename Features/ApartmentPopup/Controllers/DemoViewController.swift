@@ -10,7 +10,7 @@ final class DemoViewController: RentRediPlusHomeVC {
     }
 
     private func showMockApartment() {
-        let submission = TenantCardSubmission(
+        let submission = DemoTenantCardSubmission(
             address: "123 Maple Street",
             unitID: "4B",
             city: "Austin",

@@ -32,6 +32,7 @@
 		10000000000000000000001A /* ApartmentPopupDataServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000001F /* ApartmentPopupDataServices.swift */; };
 		10000000000000000000001B /* FirebaseApartmentPopupServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000020 /* FirebaseApartmentPopupServices.swift */; };
 		10000000000000000000001C /* DemoApartmentPopupServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000021 /* DemoApartmentPopupServices.swift */; };
+		10000000000000000000001D /* ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000022 /* ImageLoading.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		20000000000000000000001F /* ApartmentPopupDataServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentPopupDataServices.swift; sourceTree = "<group>"; };
 		200000000000000000000020 /* FirebaseApartmentPopupServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseApartmentPopupServices.swift; sourceTree = "<group>"; };
 		200000000000000000000021 /* DemoApartmentPopupServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApartmentPopupServices.swift; sourceTree = "<group>"; };
+		200000000000000000000022 /* ImageLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoading.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +250,7 @@
 		400000000000000000000011 /* PhotoCarousel */ = {
 			isa = PBXGroup;
 			children = (
+				200000000000000000000022 /* ImageLoading.swift */,
 				200000000000000000000014 /* PhotoCarouselItem.swift */,
 				200000000000000000000015 /* PhotoCarouselCell.swift */,
 				200000000000000000000016 /* PhotoCarouselView.swift */,
@@ -396,6 +399,7 @@
 				10000000000000000000001C /* DemoApartmentPopupServices.swift in Sources */,
 				10000000000000000000000E /* DemoDestinationViewControllers.swift in Sources */,
 				10000000000000000000000F /* DatabaseFunctions.swift in Sources */,
+				10000000000000000000001D /* ImageLoading.swift in Sources */,
 				100000000000000000000010 /* PhotoCarouselItem.swift in Sources */,
 				100000000000000000000011 /* PhotoCarouselCell.swift in Sources */,
 				100000000000000000000012 /* PhotoCarouselView.swift in Sources */,

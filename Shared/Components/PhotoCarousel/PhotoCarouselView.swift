@@ -12,6 +12,7 @@ extension PhotoCarouselViewDelegate {
 
 final class PhotoCarouselView: UIView {
     weak var delegate: PhotoCarouselViewDelegate?
+    var imageLoader: ImageLoading = DefaultImageLoader.shared
 
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var pageControl: UIPageControl!
@@ -118,20 +119,20 @@ extension PhotoCarouselView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        let image: UIImage?
-        switch items[indexPath.item] {
-        case .image(let loadedImage):
-            image = loadedImage
-        case .url(let url):
-            image = (try? Data(contentsOf: url)).flatMap(UIImage.init(data:))
-        }
-
-        cell.setImage(image)
+        cell.configure(with: items[indexPath.item], imageLoader: imageLoader)
         return cell
     }
 }
 
 extension PhotoCarouselView: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didEndDisplaying cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        (cell as? PhotoCarouselCell)?.cancelImageLoad()
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.photoCarouselView(self, didSelect: items[indexPath.item], at: indexPath.item)
     }

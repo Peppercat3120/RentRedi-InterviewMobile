@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
-// Original dependency import (not available in the standalone demo): import Alamofire
-// Original dependency import (not available in the standalone demo): import SwiftyJSON
 
+@MainActor
 protocol ApartmentPopupViewDelegate: AnyObject {
     func apartmentPopupViewDidRequestStart(_ popupView: ApartmentPopupView)
     func apartmentPopupViewDidRequestDismiss(_ popupView: ApartmentPopupView)
@@ -11,8 +10,6 @@ protocol ApartmentPopupViewDelegate: AnyObject {
 class ApartmentPopupView: UIView {
 
     weak var delegate: ApartmentPopupViewDelegate?
-    var applicationPhotosUrls = [URL]()
-    var tenantCardSubmission: DemoTenantCardSubmission?
 
     @IBOutlet weak var applicationPopupTitle: UILabel!
     @IBOutlet weak var applicationPopupBedrooms: UILabel!
@@ -87,33 +84,4 @@ class ApartmentPopupView: UIView {
         label.isHidden = text == nil
     }
 
-    func showAndUpdateApplicationUnitAndPropertyPhotos() {
-        //if application photo urls is not empty
-        if !self.applicationPhotosUrls.isEmpty {
-            //Run on main thread
-            DispatchQueue.main.async {
-                // show apartment photos and update the carousel
-                self.applicationInviteImage.isHidden = true
-                self.applicationPhotoCarousel.isHidden = false
-                self.applicationPopupRegion.isHidden = false
-                let items = self.applicationPhotosUrls.map(PhotoCarouselItem.url)
-                self.applicationPhotoCarousel.setContent(.items(items), initialPage: 0)
-            }
-        }
-    }
-
-    func showDefaultApplicationInvite() {
-        // set default photos
-        DispatchQueue.main.async {
-            //show default image
-            self.applicationInviteImage.isHidden = false
-            //hide and clear unit/property photos
-            self.applicationPhotoCarousel.setContent(.empty)
-            self.applicationPhotoCarousel.isHidden = true
-            //set default message
-            self.applicationPopupStreetAddress.text = "You have been invited to \(self.tenantCardSubmission?.verb.capitalizeFirstLetter() ?? "Apply") to \(self.tenantCardSubmission?.fullAddress ?? "an unknown address")"
-            //hide region (since region/state is already included in the `fullAddress` in the `applicationPopupStreetAddress.text`)
-            self.applicationPopupRegion.isHidden = true
-        }
-    }
 }

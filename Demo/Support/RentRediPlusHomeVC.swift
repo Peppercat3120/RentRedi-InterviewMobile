@@ -8,7 +8,6 @@ class RentRediPlusHomeVC: UIViewController {
     var applicationPopup = UIView()
     var tenantCardSubmission: DemoTenantCardSubmission?
     var hasExistingInviteApplication = false
-    let ref = MockDatabaseReference()
     private(set) var hideTenantToDoAlertInvocationCount = 0
 
     func hideTenantToDoAlert() {

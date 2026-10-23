@@ -1,6 +1,10 @@
 import Foundation
-import Alamofire
+import UIKit
+// Original dependency import (not available in the standalone demo): import Alamofire
+// Original dependency import (not available in the standalone demo): import SwiftyJSON
+#if canImport(SwiftyJSON)
 import SwiftyJSON
+#endif
 
 class ApartmentPopupView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
@@ -75,9 +79,9 @@ class ApartmentPopupView: UIView, UICollectionViewDelegate, UICollectionViewData
         super.init(coder: aDecoder)
         commonInit()
         //set the collection delegate and datasource of the photos to self(update collection view when Apartment Popup view data updates)
-        applicationPopupPhotos.delegate = self
-        applicationPopupPhotos.dataSource = self
-        applicationPopupPhotos.register(ApplicationApartmentPhotoCell.self, forCellWithReuseIdentifier: apartmentPhotoReuseIdentifier)
+        // Original location: applicationPopupPhotos.delegate = self
+        // Original location: applicationPopupPhotos.dataSource = self
+        // Original location: applicationPopupPhotos.register(ApplicationApartmentPhotoCell.self, forCellWithReuseIdentifier: apartmentPhotoReuseIdentifier)
     }
     //override the default initializer
     override init(frame: CGRect) {
@@ -90,7 +94,12 @@ class ApartmentPopupView: UIView, UICollectionViewDelegate, UICollectionViewData
     func commonInit() {
         guard let view = loadViewFromNib() else { return }
         view.frame = self.bounds
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(view)
+        applicationPopupPhotos.delegate = self
+        applicationPopupPhotos.dataSource = self
+        applicationPopupPhotos.isPagingEnabled = true
+        applicationPopupPhotos.register(ApplicationApartmentPhotoCell.self, forCellWithReuseIdentifier: apartmentPhotoReuseIdentifier)
     }
     //load view from nib named ApartmentPopupView
     func loadViewFromNib() -> UIView? {
@@ -184,6 +193,7 @@ class ApartmentPopupView: UIView, UICollectionViewDelegate, UICollectionViewData
         delegate?.updateToDoAlert(title: "You have been invited to \(tenantCardSubmission?.verb.capitalizeFirstLetter() ?? "Apply")) to \(tenantCardSubmission?.fullAddress ?? "").", description: "Tap to start, or go to '\(tenantCardSubmission?.submissionType ?? "")'", type: .applicationInvite)
     }
 
+    #if canImport(SwiftyJSON)
     func fetchListingDetails(ownerID: String, propertyID: String, unitID: String) {
         //fetch photos, numbers of bedrooms/bathrooms and rent for unit
         fetchListingPhotos(ownerID: ownerID, propertyID: propertyID, unitID: unitID)
@@ -292,6 +302,7 @@ class ApartmentPopupView: UIView, UICollectionViewDelegate, UICollectionViewData
             }
         }
     }
+    #endif
 
     func showAndUpdateApplicationUnitAndPropertyPhotos() {
         //if application photo urls is not empty

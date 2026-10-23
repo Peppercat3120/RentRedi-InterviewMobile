@@ -10,7 +10,7 @@ For this assignment:
 - Over a series of commits, refactor the current code to allow reuse of the carousel interface separately AND within the current component.
 - Additionally improve the code in any way that would make it more maintainable and more readable.
 - Provide a different screen that demonstrates the reusable carousel with a selection of sample images.
-- Zip the entire project, including the source control repository, and submit it via Google Forms: https://forms.gle/71HdBXh6XmUwMiEx8
+- Zip the entire project, including the source control repository, and submit it to your recruiting coodinator
 - Communicate with your recruiting coordinator to schedule a code review session.
 
 > **NOTE:** We expect this assignment to take no more than 3-5 hours. None of your submission will be used for any purpose other than to evaluate your skill and experience.

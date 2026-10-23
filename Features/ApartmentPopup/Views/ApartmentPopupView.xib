@@ -12,11 +12,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ApartmentPopupView" customModule="ApartmentPopupDemo" customModuleProvider="target">
             <connections>
                 <outlet property="applicationInviteImage" destination="SSa-CE-Cyp" id="Dq5-hE-khZ"/>
-                <outlet property="applicationPhotoDots" destination="bzV-hg-wZl" id="0iT-iC-gaG"/>
+                <outlet property="applicationPhotoCarousel" destination="tNd-be-fgV" id="4lD-Qo-n6U"/>
                 <outlet property="applicationPopupBathrooms" destination="AIU-Kd-6Sm" id="paF-VO-aTa"/>
                 <outlet property="applicationPopupBedrooms" destination="zMU-ig-FWU" id="vdU-Lr-Ep8"/>
-                <outlet property="applicationPopupPageNumber" destination="yzN-lJ-pjd" id="YBF-c6-ZeJ"/>
-                <outlet property="applicationPopupPhotos" destination="tNd-be-fgV" id="4lD-Qo-n6U"/>
                 <outlet property="applicationPopupRegion" destination="yof-nN-Yx4" id="39g-mi-bXZ"/>
                 <outlet property="applicationPopupRentAmount" destination="Tej-Dw-Btm" id="DE2-qZ-iXg"/>
                 <outlet property="applicationPopupStreetAddress" destination="L2H-t9-O6w" id="Kaj-rH-K50"/>
@@ -57,34 +55,10 @@
                         <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SSa-CE-Cyp">
                             <rect key="frame" x="24.5" y="73" width="282" height="278.5"/>
                         </imageView>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tNd-be-fgV">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tNd-be-fgV" customClass="PhotoCarouselView" customModule="ApartmentPopupDemo" customModuleProvider="target">
                             <rect key="frame" x="24.5" y="73" width="282" height="278.5"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="MI5-dV-eSK">
-                                <size key="itemSize" width="0.0" height="0.0"/>
-                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            </collectionViewFlowLayout>
-                            <cells/>
-                        </collectionView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Page" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzN-lJ-pjd" userLabel="Page Number">
-                            <rect key="frame" x="240" y="319.5" width="56.5" height="22"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.4243325745" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="20"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </label>
-                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="bzV-hg-wZl">
-                            <rect key="frame" x="88" y="325.5" width="155.5" height="26"/>
-                            <color key="pageIndicatorTintColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="currentPageIndicatorTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        </pageControl>
+                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bedrooms" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zMU-ig-FWU" userLabel="Application Popup Bedrooms">
                             <rect key="frame" x="37.5" y="361.5" width="70" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -144,20 +118,16 @@
                         <constraint firstItem="SSa-CE-Cyp" firstAttribute="leading" secondItem="tNd-be-fgV" secondAttribute="leading" id="7CR-Ir-XNO"/>
                         <constraint firstItem="XQy-t7-Def" firstAttribute="top" secondItem="Tej-Dw-Btm" secondAttribute="bottom" constant="10" id="7x5-p2-rMD"/>
                         <constraint firstItem="tNd-be-fgV" firstAttribute="centerX" secondItem="GUb-zC-DZi" secondAttribute="centerX" id="87F-X3-vrr"/>
-                        <constraint firstItem="yzN-lJ-pjd" firstAttribute="bottom" secondItem="tNd-be-fgV" secondAttribute="bottom" constant="-10" id="Aqp-Ng-s20"/>
                         <constraint firstItem="yof-nN-Yx4" firstAttribute="width" secondItem="GUb-zC-DZi" secondAttribute="width" multiplier="0.8" id="DRf-Ge-wqh"/>
                         <constraint firstItem="SSa-CE-Cyp" firstAttribute="trailing" secondItem="tNd-be-fgV" secondAttribute="trailing" id="Dci-Z5-ESw"/>
                         <constraint firstItem="PrY-H9-NHD" firstAttribute="leading" secondItem="GUb-zC-DZi" secondAttribute="leading" constant="10" id="DuO-h1-R5X"/>
                         <constraint firstItem="XQy-t7-Def" firstAttribute="width" secondItem="GUb-zC-DZi" secondAttribute="width" multiplier="0.87" id="G4s-dS-rjP"/>
                         <constraint firstItem="AIU-Kd-6Sm" firstAttribute="centerY" secondItem="zMU-ig-FWU" secondAttribute="centerY" id="IZe-LP-bfR"/>
-                        <constraint firstItem="yzN-lJ-pjd" firstAttribute="width" secondItem="tNd-be-fgV" secondAttribute="width" multiplier="0.2" id="J2A-y0-Ptr"/>
                         <constraint firstItem="yof-nN-Yx4" firstAttribute="height" secondItem="GUb-zC-DZi" secondAttribute="height" multiplier="0.0500821" id="Jyc-yf-KXW"/>
-                        <constraint firstItem="bzV-hg-wZl" firstAttribute="bottom" secondItem="tNd-be-fgV" secondAttribute="bottom" id="LnG-ij-tPU"/>
                         <constraint firstItem="6pm-Sm-AQa" firstAttribute="centerX" secondItem="GUb-zC-DZi" secondAttribute="centerX" id="Mci-Qp-Ptp"/>
                         <constraint firstItem="Tej-Dw-Btm" firstAttribute="height" secondItem="GUb-zC-DZi" secondAttribute="height" multiplier="0.0517241" id="OSr-f8-MBt"/>
                         <constraint firstItem="AIU-Kd-6Sm" firstAttribute="leading" secondItem="zMU-ig-FWU" secondAttribute="trailing" constant="3" id="Owd-By-uFi"/>
                         <constraint firstItem="SSa-CE-Cyp" firstAttribute="width" secondItem="GUb-zC-DZi" secondAttribute="width" multiplier="0.85" id="PmH-if-ogV"/>
-                        <constraint firstItem="yzN-lJ-pjd" firstAttribute="trailing" secondItem="tNd-be-fgV" secondAttribute="trailing" constant="-10" id="Qn7-hs-dEM"/>
                         <constraint firstItem="tNd-be-fgV" firstAttribute="width" secondItem="GUb-zC-DZi" secondAttribute="width" multiplier="0.85" id="RM1-KF-45u"/>
                         <constraint firstItem="L2H-t9-O6w" firstAttribute="top" secondItem="zMU-ig-FWU" secondAttribute="bottom" constant="5" id="Vrc-w4-Uai"/>
                         <constraint firstItem="yof-nN-Yx4" firstAttribute="centerX" secondItem="GUb-zC-DZi" secondAttribute="centerX" id="Vx7-2g-BvL"/>
@@ -165,12 +135,10 @@
                         <constraint firstItem="yof-nN-Yx4" firstAttribute="top" secondItem="L2H-t9-O6w" secondAttribute="bottom" constant="5" id="YjQ-gt-VLO"/>
                         <constraint firstItem="Tej-Dw-Btm" firstAttribute="centerX" secondItem="GUb-zC-DZi" secondAttribute="centerX" id="btg-Z1-HAg"/>
                         <constraint firstItem="PrY-H9-NHD" firstAttribute="top" secondItem="GUb-zC-DZi" secondAttribute="top" constant="10" id="gDO-P5-L5U"/>
-                        <constraint firstItem="yzN-lJ-pjd" firstAttribute="height" secondItem="tNd-be-fgV" secondAttribute="height" multiplier="0.08" id="hY1-b5-WjH"/>
                         <constraint firstItem="tNd-be-fgV" firstAttribute="height" secondItem="GUb-zC-DZi" secondAttribute="height" multiplier="0.426108" id="jav-Sc-TTx"/>
                         <constraint firstItem="PrY-H9-NHD" firstAttribute="height" secondItem="GUb-zC-DZi" secondAttribute="height" multiplier="0.0985222" id="mqx-WP-zq9"/>
                         <constraint firstItem="tNd-be-fgV" firstAttribute="top" secondItem="6pm-Sm-AQa" secondAttribute="bottom" constant="10" id="nuZ-rD-R3r"/>
                         <constraint firstAttribute="bottom" secondItem="XQy-t7-Def" secondAttribute="bottom" constant="33" id="qEk-ca-c1y"/>
-                        <constraint firstItem="bzV-hg-wZl" firstAttribute="centerX" secondItem="tNd-be-fgV" secondAttribute="centerX" id="tx1-Uz-Dhn"/>
                         <constraint firstItem="zMU-ig-FWU" firstAttribute="top" secondItem="tNd-be-fgV" secondAttribute="bottom" constant="10" id="uoV-PZ-yci"/>
                         <constraint firstItem="L2H-t9-O6w" firstAttribute="width" secondItem="GUb-zC-DZi" secondAttribute="width" multiplier="0.8" id="wV9-w3-xES"/>
                         <constraint firstItem="SSa-CE-Cyp" firstAttribute="top" secondItem="tNd-be-fgV" secondAttribute="top" id="xTr-U4-gqs"/>

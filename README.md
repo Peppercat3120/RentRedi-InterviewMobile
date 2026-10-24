@@ -2,6 +2,15 @@
 
 This project refactors a production-derived apartment popup to extract a reusable photo carousel, then demonstrates the same component in an independent maintenance-request screen. The demo preserves the apartment experience while separating presentation, UIKit rendering, controller coordination, and external services into maintainable boundaries.
 
+## Development approach
+
+The work was completed in two deliberate phases:
+
+1. **Challenge implementation:** establish the standalone demo project, extract the reusable photo carousel, integrate it into the existing apartment popup, and demonstrate reuse in a maintenance-request screen.
+2. **Architectural review:** after the core challenge was complete, use a separate `architectural-review` branch to explore how the production-derived legacy code could be moved toward clearer MVC boundaries. This phase introduced presentation builders, immutable display content, injected service protocols, slimmer view controllers, and broader focused test coverage.
+
+The second phase was not required to prove carousel reuse. It was intentionally kept separate during development to distinguish the minimum feature solution from the additional legacy-code modernization work. The branch was subsequently merged so the submitted project presents the reviewed architecture as a cohesive final result.
+
 ## What is included
 
 - An apartment popup backed by asynchronous listing and invite-status service protocols.

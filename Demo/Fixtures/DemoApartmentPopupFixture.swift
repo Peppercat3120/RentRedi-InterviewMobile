@@ -20,7 +20,7 @@ enum DemoApartmentPopupFixture {
             bedroomCount: "2",
             bathroomCount: "2",
             monthlyRent: "2,450",
-            photoURLs: DemoImageFactory.makeImageURLs()
+            photoURLs: DemoImageProvider.apartmentImageURLs()
         )
     }
 }

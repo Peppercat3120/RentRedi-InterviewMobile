@@ -1,23 +1,27 @@
 import UIKit
 
 @MainActor
-final class DemoViewController: RentRediPlusHomeVC {
+final class ApartmentPopupViewController: UIViewController {
     private let listingService: ApartmentListingLoading
     private let inviteStatusService: InviteStatusUpdating
+    private let presentationBuilder: ApartmentPopupPresentationBuilder
     private let initialSubmission: ApartmentPopupSubmission?
     private let serviceErrorHandler: (Error) -> Void
     private var listingTask: Task<Void, Never>?
+    private var currentSubmission: ApartmentPopupSubmission?
 
     private(set) var popupView: ApartmentPopupView?
 
     init(
         listingService: ApartmentListingLoading,
         inviteStatusService: InviteStatusUpdating,
+        presentationBuilder: ApartmentPopupPresentationBuilder = ApartmentPopupPresentationBuilder(),
         initialSubmission: ApartmentPopupSubmission? = nil,
         serviceErrorHandler: @escaping (Error) -> Void = { print($0) }
     ) {
         self.listingService = listingService
         self.inviteStatusService = inviteStatusService
+        self.presentationBuilder = presentationBuilder
         self.initialSubmission = initialSubmission
         self.serviceErrorHandler = serviceErrorHandler
         super.init(nibName: nil, bundle: nil)
@@ -32,6 +36,10 @@ final class DemoViewController: RentRediPlusHomeVC {
         listingTask?.cancel()
     }
 
+    override func loadView() {
+        view = UIView()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGroupedBackground
@@ -43,8 +51,7 @@ final class DemoViewController: RentRediPlusHomeVC {
     func showApartmentPopup(for submission: ApartmentPopupSubmission) {
         listingTask?.cancel()
         popupView?.removeFromSuperview()
-
-        tenantCardSubmission = submission
+        currentSubmission = submission
 
         let popup = ApartmentPopupView(frame: view.bounds)
         popup.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -52,17 +59,11 @@ final class DemoViewController: RentRediPlusHomeVC {
         popup.accessibilityIdentifier = "apartmentPopup"
         view.addSubview(popup)
 
-        applicationPopup = popup
         popupView = popup
-        popup.configure(with: makePopupContent(for: submission, listingDetails: nil))
-
-        hasExistingInviteApplication = true
-        setupTenantToDoAlert()
-        updateToDoAlert(
-            title: "You have been invited to \(submission.verb.capitalizeFirstLetter()) to \(submission.fullAddress).",
-            description: "Tap to start, or go to '\(submission.submissionType ?? "")'",
-            type: .applicationInvite
-        )
+        popup.configure(with: presentationBuilder.build(
+            submission: submission,
+            listingDetails: nil
+        ))
 
         guard let identifier = makeListingIdentifier(from: submission) else {
             return
@@ -80,7 +81,10 @@ final class DemoViewController: RentRediPlusHomeVC {
                       self.popupView === popup else {
                     return
                 }
-                popup.configure(with: self.makePopupContent(for: submission, listingDetails: details))
+                popup.configure(with: self.presentationBuilder.build(
+                    submission: submission,
+                    listingDetails: details
+                ))
             } catch is CancellationError {
                 return
             } catch {
@@ -88,31 +92,6 @@ final class DemoViewController: RentRediPlusHomeVC {
                 serviceErrorHandler(error)
             }
         }
-    }
-
-    private func makePopupContent(
-        for submission: ApartmentPopupSubmission,
-        listingDetails: ApartmentListingDetails?
-    ) -> ApartmentPopupContent {
-        let photoURLs = listingDetails?.photoURLs ?? []
-        let hasPhotos = !photoURLs.isEmpty
-
-        return ApartmentPopupContent(
-            title: "Invite to \(submission.verb.capitalizeFirstLetter())",
-            bedroomText: listingDetails?.bedroomCount.map { "\($0) Bedrooms" },
-            bathroomText: listingDetails?.bathroomCount.map { " • \($0) Bathrooms" },
-            addressText: hasPhotos
-                ? "\(submission.address ?? "Error, Not Available"), Unit \(submission.unitID ?? "")"
-                : "You have been invited to \(submission.verb.capitalizeFirstLetter()) to \(submission.fullAddress)",
-            regionText: hasPhotos
-                ? "\(submission.city ?? ""), \(submission.state ?? "") \(submission.zip ?? "")"
-                : nil,
-            rentText: listingDetails?.monthlyRent.map { "$\($0)/month" },
-            primaryActionTitle: applyPrequalifyVerb(noun: submission.submissionType ?? "").capitalizeFirstLetter(),
-            media: hasPhotos
-                ? .photos(photoURLs.map(PhotoCarouselItem.url))
-                : .defaultInvite
-        )
     }
 
     private func makeListingIdentifier(
@@ -164,7 +143,7 @@ final class DemoViewController: RentRediPlusHomeVC {
     }
 }
 
-extension DemoViewController: ApartmentPopupViewDelegate {
+extension ApartmentPopupViewController: ApartmentPopupViewDelegate {
     func apartmentPopupViewDidRequestStart(_ popupView: ApartmentPopupView) {
         // Mocked behavior for this challenge: dismiss instead of entering the production application flow.
         popupView.isHidden = true
@@ -173,8 +152,8 @@ extension DemoViewController: ApartmentPopupViewDelegate {
     func apartmentPopupViewDidRequestDismiss(_ popupView: ApartmentPopupView) {
         popupView.isHidden = true
 
-        guard let tenantCardSubmission,
-              let invite = makeInviteIdentifier(from: tenantCardSubmission) else {
+        guard let currentSubmission,
+              let invite = makeInviteIdentifier(from: currentSubmission) else {
             return
         }
         persistStatus(.viewed, for: invite)

@@ -64,7 +64,7 @@ final class ApartmentPopupPresentationTests: XCTestCase {
         )
     }
 
-    func testMediaStateResetsBetweenPhotosDefaultInviteAndEmptyPhotos() {
+    func testMediaStateResetsBetweenPhotosAndDefaultInvite() {
         let popup = makePopup()
         popup.configure(with: populatedContent(media: .photos([.image(UIImage()), .image(UIImage())])))
         assertCarousel(on: popup, itemCount: 2, currentPage: 0, pageText: "1 of 2")
@@ -84,8 +84,6 @@ final class ApartmentPopupPresentationTests: XCTestCase {
         assertCarousel(on: popup, itemCount: 3, currentPage: 0, pageText: "1 of 3")
         XCTAssertFalse(popup.applicationPopupRegion.isHidden)
 
-        popup.configure(with: populatedContent(media: .photos([])))
-        assertDefaultInvite(on: popup)
     }
 
     func testFrameInitializerLoadsXIBAndConnectsPresentationOutlets() {

@@ -8,7 +8,7 @@ enum DemoMaintenanceRequestFixture {
             location: "Kitchen",
             submittedDateText: "October 23, 2026",
             details: "Water is dripping beneath the sink and has started to damage the cabinet base.",
-            photoURLs: DemoImageFactory.makeMaintenanceImageURLs()
+            photoURLs: DemoImageProvider.maintenanceImageURLs()
         )
     }
 }

@@ -11,17 +11,6 @@ struct ApartmentPopupSubmission: Equatable {
     let state: String?
     let zip: String?
 
-    var verb: String {
-        switch submissionType {
-        case "prequalification": return "prequalify"
-        default: return "apply"
-        }
-    }
-
-    var fullAddress: String {
-        "\(address ?? ""), \(unitID ?? ""), \(city ?? ""), \(state ?? "") \(zip ?? "")"
-    }
-
     init(
         submissionType: String? = nil,
         ownerID: String? = nil,

@@ -2,58 +2,110 @@ import XCTest
 import UIKit
 @testable import ApartmentPopupDemo
 
-final class MaintenanceRequestDemoTests: XCTestCase {
-    func testScreenRendersRequestAndConfiguresSharedCarousel() {
-        let request = MaintenanceRequest(
-            title: "Leaking Kitchen Sink",
-            status: "Open",
-            location: "Kitchen",
-            submittedDateText: "October 23, 2026",
-            details: "Water is dripping beneath the sink.",
-            photoURLs: [
-                URL(string: "https://example.com/one.png")!,
-                URL(string: "https://example.com/two.png")!,
-                URL(string: "https://example.com/three.png")!
-            ]
+final class MaintenanceRequestPresentationBuilderTests: XCTestCase {
+    private let builder = MaintenanceRequestPresentationBuilder()
+
+    func testBuildFormatsDisplayValuesAndPreservesPhotoOrder() {
+        let firstURL = URL(string: "https://example.com/one.png")!
+        let secondURL = URL(string: "https://example.com/two.png")!
+        let request = makeMaintenanceRequest(photoURLs: [firstURL, secondURL])
+
+        let content = builder.build(request: request)
+
+        XCTAssertEqual(content.navigationTitle, "Maintenance Request")
+        XCTAssertEqual(content.titleText, "Leaking Kitchen Sink")
+        XCTAssertEqual(content.statusText, "Status: Open")
+        XCTAssertEqual(content.locationText, "Location: Kitchen")
+        XCTAssertEqual(content.submittedDateText, "Submitted: October 23, 2026")
+        XCTAssertEqual(content.detailsHeadingText, "Description")
+        XCTAssertEqual(content.detailsText, "Water is dripping beneath the sink.")
+
+        guard case .items(let items) = content.carouselContent else {
+            return XCTFail("Expected carousel items")
+        }
+        let mappedURLs = items.compactMap { item -> URL? in
+            guard case .url(let url) = item else { return nil }
+            return url
+        }
+        XCTAssertEqual(mappedURLs, [firstURL, secondURL])
+    }
+
+    func testBuildUsesEmptyCarouselContentWhenRequestHasNoPhotos() {
+        let content = builder.build(request: makeMaintenanceRequest(photoURLs: []))
+
+        guard case .empty = content.carouselContent else {
+            return XCTFail("Expected empty carousel content")
+        }
+    }
+}
+
+final class MaintenanceRequestViewTests: XCTestCase {
+    func testConfigureAppliesContentToLabelsAndCarousel() {
+        let view = MaintenanceRequestView()
+        let photoURLs = [
+            URL(string: "https://example.com/one.png")!,
+            URL(string: "https://example.com/two.png")!
+        ]
+        let content = MaintenanceRequestPresentationBuilder().build(
+            request: makeMaintenanceRequest(photoURLs: photoURLs)
         )
-        let controller = MaintenanceRequestViewController(request: request)
 
-        controller.loadViewIfNeeded()
+        view.configure(with: content)
 
-        XCTAssertEqual(controller.title, "Maintenance Request")
-        XCTAssertEqual(label(in: controller, identifier: "maintenanceRequestTitle").text, request.title)
-        XCTAssertEqual(label(in: controller, identifier: "maintenanceRequestStatus").text, "Status: Open")
-        XCTAssertEqual(label(in: controller, identifier: "maintenanceRequestLocation").text, "Location: Kitchen")
+        XCTAssertEqual(view.accessibilityIdentifier, "maintenanceRequestScreen")
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestTitle").text, content.titleText)
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestStatus").text, content.statusText)
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestLocation").text, content.locationText)
         XCTAssertEqual(
-            label(in: controller, identifier: "maintenanceRequestSubmittedDate").text,
-            "Submitted: October 23, 2026"
+            label(in: view, identifier: "maintenanceRequestSubmittedDate").text,
+            content.submittedDateText
         )
-        XCTAssertEqual(label(in: controller, identifier: "maintenanceRequestDetails").text, request.details)
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestDetails").text, content.detailsText)
 
-        let carousel = carousel(in: controller)
+        let carousel = carousel(in: view)
         let collectionView: UICollectionView = tryUnwrap(carousel.firstDescendant())
         let pageControl: UIPageControl = tryUnwrap(carousel.firstDescendant())
         let pageLabel: UILabel = tryUnwrap(carousel.firstDescendant())
-        XCTAssertEqual(collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: 0), 3)
-        XCTAssertEqual(pageControl.numberOfPages, 3)
+        XCTAssertEqual(collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: 0), 2)
+        XCTAssertEqual(pageControl.numberOfPages, 2)
         XCTAssertEqual(pageControl.currentPage, 0)
-        XCTAssertEqual(pageLabel.text, "1 of 3")
+        XCTAssertEqual(pageLabel.text, "1 of 2")
     }
 
-    func testScreenConfiguresEmptyCarouselWhenRequestHasNoPhotos() {
-        let request = MaintenanceRequest(
-            title: "Loose Door Handle",
-            status: "Open",
-            location: "Front Door",
-            submittedDateText: "October 23, 2026",
-            details: "The inside handle is loose.",
-            photoURLs: []
+    func testReconfigureReplacesEveryDisplayValueAndClearsCarouselItems() {
+        let view = MaintenanceRequestView()
+        view.configure(with: MaintenanceRequestContent(
+            navigationTitle: "Initial Navigation",
+            titleText: "Initial Title",
+            statusText: "Initial Status",
+            locationText: "Initial Location",
+            submittedDateText: "Initial Date",
+            detailsHeadingText: "Initial Heading",
+            detailsText: "Initial Details",
+            carouselContent: .items([.image(UIImage())])
+        ))
+
+        view.configure(with: MaintenanceRequestContent(
+            navigationTitle: "Updated Navigation",
+            titleText: "Updated Title",
+            statusText: "Updated Status",
+            locationText: "Updated Location",
+            submittedDateText: "Updated Date",
+            detailsHeadingText: "Updated Heading",
+            detailsText: "Updated Details",
+            carouselContent: .empty
+        ))
+
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestTitle").text, "Updated Title")
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestStatus").text, "Updated Status")
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestLocation").text, "Updated Location")
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestSubmittedDate").text, "Updated Date")
+        XCTAssertEqual(
+            label(in: view, identifier: "maintenanceRequestDetailsHeading").text,
+            "Updated Heading"
         )
-        let controller = MaintenanceRequestViewController(request: request)
-
-        controller.loadViewIfNeeded()
-
-        let carousel = carousel(in: controller)
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestDetails").text, "Updated Details")
+        let carousel = carousel(in: view)
         let collectionView: UICollectionView = tryUnwrap(carousel.firstDescendant())
         let pageControl: UIPageControl = tryUnwrap(carousel.firstDescendant())
         let pageLabel: UILabel = tryUnwrap(carousel.firstDescendant())
@@ -61,36 +113,64 @@ final class MaintenanceRequestDemoTests: XCTestCase {
         XCTAssertTrue(pageControl.isHidden)
         XCTAssertTrue(pageLabel.isHidden)
     }
+}
 
-    private func carousel(in controller: UIViewController) -> PhotoCarouselView {
-        tryUnwrap(
-            controller.view.firstDescendant(
-                of: PhotoCarouselView.self,
-                accessibilityIdentifier: "maintenancePhotoCarousel"
-            )
+final class MaintenanceRequestViewControllerTests: XCTestCase {
+    func testControllerInstallsAndConfiguresMaintenanceView() {
+        let request = makeMaintenanceRequest(
+            photoURLs: [URL(string: "https://example.com/photo.png")!]
         )
-    }
+        let controller = MaintenanceRequestViewController(request: request)
 
-    private func label(in controller: UIViewController, identifier: String) -> UILabel {
-        tryUnwrap(
-            controller.view.firstDescendant(
-                of: UILabel.self,
-                accessibilityIdentifier: identifier
-            )
+        controller.loadViewIfNeeded()
+
+        XCTAssertTrue(controller.view is MaintenanceRequestView)
+        XCTAssertEqual(controller.title, "Maintenance Request")
+        XCTAssertEqual(label(in: controller.view, identifier: "maintenanceRequestTitle").text, request.title)
+        XCTAssertEqual(label(in: controller.view, identifier: "maintenanceRequestStatus").text, "Status: Open")
+        XCTAssertNotNil(carousel(in: controller.view))
+    }
+}
+
+private func makeMaintenanceRequest(photoURLs: [URL]) -> MaintenanceRequest {
+    MaintenanceRequest(
+        title: "Leaking Kitchen Sink",
+        status: "Open",
+        location: "Kitchen",
+        submittedDateText: "October 23, 2026",
+        details: "Water is dripping beneath the sink.",
+        photoURLs: photoURLs
+    )
+}
+
+private func carousel(in view: UIView) -> PhotoCarouselView {
+    tryUnwrap(
+        view.firstDescendant(
+            of: PhotoCarouselView.self,
+            accessibilityIdentifier: "maintenancePhotoCarousel"
         )
-    }
+    )
+}
 
-    private func tryUnwrap<T>(
-        _ value: T?,
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) -> T {
-        guard let value else {
-            XCTFail("Expected a \(T.self) in the view hierarchy", file: file, line: line)
-            fatalError("Missing expected view")
-        }
-        return value
+private func label(in view: UIView, identifier: String) -> UILabel {
+    tryUnwrap(
+        view.firstDescendant(
+            of: UILabel.self,
+            accessibilityIdentifier: identifier
+        )
+    )
+}
+
+private func tryUnwrap<T>(
+    _ value: T?,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) -> T {
+    guard let value else {
+        XCTFail("Expected a \(T.self) in the view hierarchy", file: file, line: line)
+        fatalError("Missing expected view")
     }
+    return value
 }
 
 final class DemoMenuNavigationTests: XCTestCase {

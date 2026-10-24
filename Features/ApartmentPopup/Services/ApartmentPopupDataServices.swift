@@ -32,6 +32,8 @@ struct InviteIdentifier: Equatable {
 }
 
 enum InviteStatus: String, Equatable {
+    /// Used by production before routing into the application or prequalification flow.
+    /// TODO: Persist this transition when the production Start coordinator is extracted.
     case accepted
     case viewed
 }

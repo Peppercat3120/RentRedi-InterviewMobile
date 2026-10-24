@@ -3,6 +3,31 @@ import UIKit
 @testable import ApartmentPopupDemo
 
 final class PhotoCarouselIntegrationTests: XCTestCase {
+    func testCarouselConfiguredAtZeroSizeRendersAfterItsContainerIsLaidOut() {
+        let hostView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 260))
+        let carousel = PhotoCarouselView()
+        let image = makeTestImage(color: .blue)
+        carousel.translatesAutoresizingMaskIntoConstraints = false
+        hostView.addSubview(carousel)
+        NSLayoutConstraint.activate([
+            carousel.leadingAnchor.constraint(equalTo: hostView.leadingAnchor),
+            carousel.trailingAnchor.constraint(equalTo: hostView.trailingAnchor),
+            carousel.topAnchor.constraint(equalTo: hostView.topAnchor),
+            carousel.bottomAnchor.constraint(equalTo: hostView.bottomAnchor)
+        ])
+
+        carousel.setContent(.items([.image(image)]))
+        hostView.layoutIfNeeded()
+
+        let collectionView: UICollectionView = tryUnwrap(carousel.firstDescendant())
+        collectionView.layoutIfNeeded()
+        let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0))
+        let imageView: UIImageView = tryUnwrap(cell?.firstDescendant())
+        XCTAssertEqual(cell?.bounds.size, collectionView.bounds.size)
+        XCTAssertGreaterThan(cell?.bounds.width ?? 0, 0)
+        XCTAssertTrue(imageView.image === image)
+    }
+
     func testCarouselStatesAndInitialPageClamping() {
         let carousel = PhotoCarouselView(frame: CGRect(x: 0, y: 0, width: 282, height: 278.5))
         let collectionView: UICollectionView = tryUnwrap(carousel.firstDescendant())

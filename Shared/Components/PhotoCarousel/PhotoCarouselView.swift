@@ -22,6 +22,7 @@ final class PhotoCarouselView: UIView {
     private var items: [PhotoCarouselItem] = []
     private var currentPage = 0
     private var isApplyingContent = false
+    private var lastCollectionViewSize = CGSize.zero
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,6 +32,22 @@ final class PhotoCarouselView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         commonInit()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // The carousel can be configured while its owning view still has a zero frame.
+        // Lay out the nib content first, then rebuild the flow layout once a real size exists.
+        collectionView.superview?.layoutIfNeeded()
+        let collectionViewSize = collectionView.bounds.size
+        guard collectionViewSize != .zero,
+              collectionViewSize != lastCollectionViewSize else {
+            return
+        }
+
+        lastCollectionViewSize = collectionViewSize
+        layoutCurrentPageIfPossible()
     }
 
     func setContent(_ content: PhotoCarouselContent, initialPage: Int = 0) {
@@ -49,15 +66,7 @@ final class PhotoCarouselView: UIView {
 
         collectionView.reloadData()
         updateStatePresentation()
-
-        guard !items.isEmpty else { return }
-
-        collectionView.layoutIfNeeded()
-        collectionView.scrollToItem(
-            at: IndexPath(item: currentPage, section: 0),
-            at: .centeredHorizontally,
-            animated: false
-        )
+        layoutCurrentPageIfPossible()
     }
 
     private func commonInit() {
@@ -85,6 +94,28 @@ final class PhotoCarouselView: UIView {
         pageControl.numberOfPages = items.count
         pageControl.currentPage = currentPage
         pageNumberLabel.text = hasItems ? "\(currentPage + 1) of \(items.count)" : nil
+    }
+
+    private func layoutCurrentPageIfPossible() {
+        guard !items.isEmpty,
+              collectionView.bounds.width > 0,
+              collectionView.bounds.height > 0 else {
+            return
+        }
+
+        let pageToDisplay = currentPage
+        let wasApplyingContent = isApplyingContent
+        isApplyingContent = true
+        defer { isApplyingContent = wasApplyingContent }
+
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.layoutIfNeeded()
+        collectionView.scrollToItem(
+            at: IndexPath(item: pageToDisplay, section: 0),
+            at: .centeredHorizontally,
+            animated: false
+        )
+        updateCurrentPage(pageToDisplay, notifyDelegate: false)
     }
 
     private func updateCurrentPage(_ page: Int, notifyDelegate: Bool) {

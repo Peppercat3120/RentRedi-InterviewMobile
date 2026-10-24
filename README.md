@@ -1,19 +1,51 @@
-# RentRedi Mobile Developer Skills Assessment
+# RentRedi Reusable Photo Carousel
 
-In this exercise, we're providing you a sample of some production code from our customer-facing app for renters, which we refer to as Tenants. This interface is presented when a Tenant is interested in an apartment that they see advertized for rent to view details about the property and the possible subunits, which could be rooms or partitions of a single property that are individually for rent. The interface displays a carousel of images of the property on top of some basic details about the property / unit: number of bedrooms and bathrooms, address, etc.
+This project refactors a production-derived apartment popup to extract a reusable photo carousel, then demonstrates the same component in an independent maintenance-request screen. The demo preserves the apartment experience while separating presentation, UIKit rendering, controller coordination, and external services into maintainable boundaries.
 
-In this scenario, we want to provide a similar interface elsewhere in the app with a carousel of images. Imagine a feature that displays images from a recent maintenance request in the same way only with details about the maintenance request instead of the property / unit.
+## What is included
 
-For this assignment:
-- Initialize a new source control repository and commit these base files into it.
-- Provide any additional supporting boilerplate that you find helpful for development.
-- Over a series of commits, refactor the current code to allow reuse of the carousel interface separately AND within the current component.
-- Additionally improve the code in any way that would make it more maintainable and more readable.
-- Provide a different screen that demonstrates the reusable carousel with a selection of sample images.
-- Zip the entire project, including the source control repository, and submit it to your recruiting coodinator
-- Communicate with your recruiting coordinator to schedule a code review session.
+- An apartment popup backed by asynchronous listing and invite-status service protocols.
+- A maintenance-request screen that independently consumes the shared carousel.
+- Six bundled demo images loaded through the production-style asynchronous image-loading path.
+- Unit, integration, and UI smoke tests covering presentation, interaction, resources, reconfiguration, and both demo routes.
 
-> **NOTE:** We expect this assignment to take no more than 3-5 hours. None of your submission will be used for any purpose other than to evaluate your skill and experience.
+## Architecture
+
+The application uses structured MVC:
+
+- **Models and services** hold domain data and expose asynchronous operations through focused protocols.
+- **Presentation builders** convert domain values into immutable, already-formatted display content.
+- **Views** own UIKit hierarchy, styling, constraints, accessibility, and content application.
+- **View controllers** coordinate lifecycle, user actions, navigation, and asynchronous services.
+
+Controllers receive collaborators through initializer injection. `SceneDelegate` is the composition root that assembles the deterministic demo services, fixtures, controllers, and routes.
+
+## Shared carousel
+
+`PhotoCarouselView` owns paging, collection-view behavior, and cell image presentation. Both the apartment popup and maintenance request views consume it through `PhotoCarouselContent`, while `DefaultImageLoader` provides the shared asynchronous loading path.
+
+## Production reference
+
+`Reference/ProductionTenantCardSubmission.swift` preserves the Firebase-coupled production model for comparison and future extraction, but is intentionally excluded from every build target. Compiling it here would pull production Firebase, authentication, and persistence responsibilities into the standalone presentation demo. For the same reason, the apartment popup's Start action only dismisses the popup: the real application/prequalification coordinator is outside this project's scope.
+
+## Build and run
+
+1. Open `ApartmentPopupDemo.xcodeproj` in Xcode.
+2. Select the shared `ApartmentPopupDemo` scheme and an iOS 16 or newer simulator.
+3. Run with **Product > Run** (`⌘R`). The demo menu provides routes to both carousel consumers.
+
+## Tests
+
+Run the complete unit, integration, and UI-test suite with **Product > Test** (`⌘U`).
+
+The equivalent command-line test is:
+
+```sh
+xcodebuild test \
+  -project ApartmentPopupDemo.xcodeproj \
+  -scheme ApartmentPopupDemo \
+  -destination 'platform=iOS Simulator,name=iPhone 17'
+```
 
 ## Testing boundaries
 

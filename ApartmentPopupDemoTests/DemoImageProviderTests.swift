@@ -28,6 +28,25 @@ final class DemoImageProviderTests: XCTestCase {
         try assertValidBundledPNGs(urls)
     }
 
+    func testAllDemoImageURLsAreDistinctNonemptyFilesDecodableByProductionLoader() async throws {
+        let urls = DemoImageProvider.apartmentImageURLs(bundle: appBundle)
+            + DemoImageProvider.maintenanceImageURLs(bundle: appBundle)
+
+        XCTAssertEqual(urls.count, 6)
+        XCTAssertEqual(Set(urls.map(\.standardizedFileURL)).count, 6)
+
+        let loader = DefaultImageLoader()
+        for url in urls {
+            let values = try url.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey])
+            XCTAssertEqual(values.isRegularFile, true, "Expected a regular file at \(url.path)")
+            XCTAssertGreaterThan(values.fileSize ?? 0, 0, "Expected a nonempty file at \(url.path)")
+
+            let image = try await loader.image(for: url)
+            XCTAssertGreaterThan(image.size.width, 0, "Expected a decodable image at \(url.path)")
+            XCTAssertGreaterThan(image.size.height, 0, "Expected a decodable image at \(url.path)")
+        }
+    }
+
     private func assertValidBundledPNGs(
         _ urls: [URL],
         file: StaticString = #filePath,

@@ -24,7 +24,8 @@ final class MaintenanceRequestView: UIView {
     )
     private let detailsHeadingLabel = MaintenanceRequestView.makeLabel(
         style: .headline,
-        weight: .semibold
+        weight: .semibold,
+        accessibilityIdentifier: "maintenanceRequestDetailsHeading"
     )
     private let detailsLabel = MaintenanceRequestView.makeLabel(
         style: .body,

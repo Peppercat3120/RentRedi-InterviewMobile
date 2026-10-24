@@ -49,6 +49,7 @@ class ApartmentPopupView: UIView {
         view.frame = self.bounds
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(view)
+        applicationPhotoCarousel.accessibilityIdentifier = "apartmentPhotoCarousel"
     }
     //load view from nib named ApartmentPopupView
     func loadViewFromNib() -> UIView? {

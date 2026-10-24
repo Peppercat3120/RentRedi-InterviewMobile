@@ -10,12 +10,20 @@
             <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="500000000000000000000003" BuildableName="ApartmentPopupDemoTests.xctest" BlueprintName="ApartmentPopupDemoTests" ReferencedContainer="container:ApartmentPopupDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry buildForTesting="YES" buildForRunning="NO" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="NO">
+            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="500000000000000000000004" BuildableName="ApartmentPopupDemoUITests.xctest" BlueprintName="ApartmentPopupDemoUITests" ReferencedContainer="container:ApartmentPopupDemo.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES">
       <Testables>
          <TestableReference skipped="NO" parallelizable="YES">
             <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="500000000000000000000003" BuildableName="ApartmentPopupDemoTests.xctest" BlueprintName="ApartmentPopupDemoTests" ReferencedContainer="container:ApartmentPopupDemo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference skipped="NO" parallelizable="NO">
+            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="500000000000000000000004" BuildableName="ApartmentPopupDemoUITests.xctest" BlueprintName="ApartmentPopupDemoUITests" ReferencedContainer="container:ApartmentPopupDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

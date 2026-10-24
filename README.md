@@ -14,3 +14,9 @@ For this assignment:
 - Communicate with your recruiting coordinator to schedule a code review session.
 
 > **NOTE:** We expect this assignment to take no more than 3-5 hours. None of your submission will be used for any purpose other than to evaluate your skill and experience.
+
+## Testing boundaries
+
+The unit and integration suite exercises presentation mapping, controller coordination, image loading, carousel behavior, and both demo consumers with deterministic services and test doubles. The UI smoke test launches the application and verifies that both demo routes expose visible, swipeable carousels.
+
+The Firebase adapters are conditionally compiled because this standalone project does not include the Firebase SDK. Their integration tests remain intentionally deferred until Firebase and its emulator are available. That future emulator-backed suite should verify database paths, photo ordering and decoding, status writes, backend errors, and cancellation behavior. The service protocols and their consumers remain covered independently of Firebase.

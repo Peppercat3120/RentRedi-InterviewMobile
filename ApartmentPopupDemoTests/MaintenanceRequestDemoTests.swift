@@ -72,15 +72,39 @@ final class MaintenanceRequestViewTests: XCTestCase {
         XCTAssertEqual(pageLabel.text, "1 of 2")
     }
 
-    func testConfigureCanReplaceItemsWithEmptyContent() {
+    func testReconfigureReplacesEveryDisplayValueAndClearsCarouselItems() {
         let view = MaintenanceRequestView()
-        let builder = MaintenanceRequestPresentationBuilder()
-        view.configure(with: builder.build(request: makeMaintenanceRequest(
-            photoURLs: [URL(string: "https://example.com/photo.png")!]
-        )))
+        view.configure(with: MaintenanceRequestContent(
+            navigationTitle: "Initial Navigation",
+            titleText: "Initial Title",
+            statusText: "Initial Status",
+            locationText: "Initial Location",
+            submittedDateText: "Initial Date",
+            detailsHeadingText: "Initial Heading",
+            detailsText: "Initial Details",
+            carouselContent: .items([.image(UIImage())])
+        ))
 
-        view.configure(with: builder.build(request: makeMaintenanceRequest(photoURLs: [])))
+        view.configure(with: MaintenanceRequestContent(
+            navigationTitle: "Updated Navigation",
+            titleText: "Updated Title",
+            statusText: "Updated Status",
+            locationText: "Updated Location",
+            submittedDateText: "Updated Date",
+            detailsHeadingText: "Updated Heading",
+            detailsText: "Updated Details",
+            carouselContent: .empty
+        ))
 
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestTitle").text, "Updated Title")
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestStatus").text, "Updated Status")
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestLocation").text, "Updated Location")
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestSubmittedDate").text, "Updated Date")
+        XCTAssertEqual(
+            label(in: view, identifier: "maintenanceRequestDetailsHeading").text,
+            "Updated Heading"
+        )
+        XCTAssertEqual(label(in: view, identifier: "maintenanceRequestDetails").text, "Updated Details")
         let carousel = carousel(in: view)
         let collectionView: UICollectionView = tryUnwrap(carousel.firstDescendant())
         let pageControl: UIPageControl = tryUnwrap(carousel.firstDescendant())

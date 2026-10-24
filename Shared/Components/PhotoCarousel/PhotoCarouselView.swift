@@ -82,7 +82,11 @@ final class PhotoCarouselView: UIView {
 
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.isPagingEnabled = true
+        // Native paging advances by the collection view width and ignores the
+        // flow layout's line spacing. Snap manually so every page lands on the
+        // corresponding cell origin while preserving the intentional gap.
+        collectionView.isPagingEnabled = false
+        collectionView.decelerationRate = .fast
         collectionView.register(PhotoCarouselCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         updateStatePresentation()
     }
@@ -171,8 +175,25 @@ extension PhotoCarouselView: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollView === collectionView, collectionView.bounds.width > 0, !items.isEmpty else { return }
 
-        let page = Int((collectionView.contentOffset.x / collectionView.bounds.width).rounded(.toNearestOrAwayFromZero))
+        let page = Int((collectionView.contentOffset.x / pageStride).rounded(.toNearestOrAwayFromZero))
         updateCurrentPage(min(max(page, 0), items.count - 1), notifyDelegate: !isApplyingContent)
+    }
+
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity _: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        guard scrollView === collectionView, !items.isEmpty else { return }
+
+        let proposedPage = Int((targetContentOffset.pointee.x / pageStride).rounded(.toNearestOrAwayFromZero))
+        let targetPage = min(max(proposedPage, 0), items.count - 1)
+        targetContentOffset.pointee.x = CGFloat(targetPage) * pageStride
+    }
+
+    private var pageStride: CGFloat {
+        let lineSpacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing ?? 0
+        return collectionView.bounds.width + lineSpacing
     }
 }
 

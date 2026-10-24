@@ -67,6 +67,33 @@ final class PhotoCarouselIntegrationTests: XCTestCase {
         XCTAssertEqual(delegate.changedPage, 1)
     }
 
+    func testCarouselSnapsLastPageUsingCellWidthAndIntentionalSpacing() {
+        let carousel = PhotoCarouselView(frame: CGRect(x: 0, y: 0, width: 282, height: 278.5))
+        let collectionView: UICollectionView = tryUnwrap(carousel.firstDescendant())
+        let pageControl: UIPageControl = tryUnwrap(carousel.firstDescendant())
+        let flowLayout: UICollectionViewFlowLayout = tryUnwrap(collectionView.collectionViewLayout as? UICollectionViewFlowLayout)
+        carousel.setContent(.items([.image(UIImage()), .image(UIImage()), .image(UIImage())]))
+        collectionView.layoutIfNeeded()
+
+        var targetContentOffset = CGPoint(x: collectionView.bounds.width * 2, y: 0)
+        carousel.scrollViewWillEndDragging(
+            collectionView,
+            withVelocity: .zero,
+            targetContentOffset: &targetContentOffset
+        )
+
+        let expectedLastPageOffset = (collectionView.bounds.width + flowLayout.minimumLineSpacing) * 2
+        let lastItemAttributes = tryUnwrap(
+            flowLayout.layoutAttributesForItem(at: IndexPath(item: 2, section: 0))
+        )
+        XCTAssertEqual(targetContentOffset.x, expectedLastPageOffset, accuracy: 0.001)
+        XCTAssertEqual(targetContentOffset.x, lastItemAttributes.frame.minX, accuracy: 0.001)
+
+        collectionView.contentOffset = targetContentOffset
+        carousel.scrollViewDidScroll(collectionView)
+        XCTAssertEqual(pageControl.currentPage, 2)
+    }
+
     func testPhotoCellDisplaysInMemoryImageWithoutCallingLoader() {
         let cell = PhotoCarouselCell(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         let imageView: UIImageView = tryUnwrap(cell.firstDescendant())

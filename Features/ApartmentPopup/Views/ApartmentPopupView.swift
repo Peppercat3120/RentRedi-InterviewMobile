@@ -67,11 +67,11 @@ class ApartmentPopupView: UIView {
         startApplicationButton.setTitle(content.primaryActionTitle, for: .normal)
 
         switch content.media {
-        case .photos(let items) where !items.isEmpty:
+        case .photos(let items):
             applicationInviteImage.isHidden = true
             applicationPhotoCarousel.isHidden = false
             applicationPhotoCarousel.setContent(.items(items), initialPage: 0)
-        case .photos, .defaultInvite:
+        case .defaultInvite:
             applicationPhotoCarousel.setContent(.empty)
             applicationPhotoCarousel.isHidden = true
             applicationInviteImage.isHidden = false

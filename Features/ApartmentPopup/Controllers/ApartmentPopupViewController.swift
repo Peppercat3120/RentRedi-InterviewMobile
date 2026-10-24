@@ -4,6 +4,7 @@ import UIKit
 final class ApartmentPopupViewController: UIViewController {
     private let listingService: ApartmentListingLoading
     private let inviteStatusService: InviteStatusUpdating
+    private let presentationBuilder: ApartmentPopupPresentationBuilder
     private let initialSubmission: ApartmentPopupSubmission?
     private let serviceErrorHandler: (Error) -> Void
     private var listingTask: Task<Void, Never>?
@@ -14,11 +15,13 @@ final class ApartmentPopupViewController: UIViewController {
     init(
         listingService: ApartmentListingLoading,
         inviteStatusService: InviteStatusUpdating,
+        presentationBuilder: ApartmentPopupPresentationBuilder = ApartmentPopupPresentationBuilder(),
         initialSubmission: ApartmentPopupSubmission? = nil,
         serviceErrorHandler: @escaping (Error) -> Void = { print($0) }
     ) {
         self.listingService = listingService
         self.inviteStatusService = inviteStatusService
+        self.presentationBuilder = presentationBuilder
         self.initialSubmission = initialSubmission
         self.serviceErrorHandler = serviceErrorHandler
         super.init(nibName: nil, bundle: nil)
@@ -57,7 +60,10 @@ final class ApartmentPopupViewController: UIViewController {
         view.addSubview(popup)
 
         popupView = popup
-        popup.configure(with: makePopupContent(for: submission, listingDetails: nil))
+        popup.configure(with: presentationBuilder.build(
+            submission: submission,
+            listingDetails: nil
+        ))
 
         guard let identifier = makeListingIdentifier(from: submission) else {
             return
@@ -75,7 +81,10 @@ final class ApartmentPopupViewController: UIViewController {
                       self.popupView === popup else {
                     return
                 }
-                popup.configure(with: self.makePopupContent(for: submission, listingDetails: details))
+                popup.configure(with: self.presentationBuilder.build(
+                    submission: submission,
+                    listingDetails: details
+                ))
             } catch is CancellationError {
                 return
             } catch {
@@ -83,31 +92,6 @@ final class ApartmentPopupViewController: UIViewController {
                 serviceErrorHandler(error)
             }
         }
-    }
-
-    private func makePopupContent(
-        for submission: ApartmentPopupSubmission,
-        listingDetails: ApartmentListingDetails?
-    ) -> ApartmentPopupContent {
-        let photoURLs = listingDetails?.photoURLs ?? []
-        let hasPhotos = !photoURLs.isEmpty
-
-        return ApartmentPopupContent(
-            title: "Invite to \(submission.verb.capitalizeFirstLetter())",
-            bedroomText: listingDetails?.bedroomCount.map { "\($0) Bedrooms" },
-            bathroomText: listingDetails?.bathroomCount.map { " • \($0) Bathrooms" },
-            addressText: hasPhotos
-                ? "\(submission.address ?? "Error, Not Available"), Unit \(submission.unitID ?? "")"
-                : "You have been invited to \(submission.verb.capitalizeFirstLetter()) to \(submission.fullAddress)",
-            regionText: hasPhotos
-                ? "\(submission.city ?? ""), \(submission.state ?? "") \(submission.zip ?? "")"
-                : nil,
-            rentText: listingDetails?.monthlyRent.map { "$\($0)/month" },
-            primaryActionTitle: submission.verb.capitalizeFirstLetter(),
-            media: hasPhotos
-                ? .photos(photoURLs.map(PhotoCarouselItem.url))
-                : .defaultInvite
-        )
     }
 
     private func makeListingIdentifier(

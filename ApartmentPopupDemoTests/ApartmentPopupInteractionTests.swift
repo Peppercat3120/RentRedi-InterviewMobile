@@ -174,24 +174,6 @@ final class ApartmentPopupInteractionTests: XCTestCase {
         XCTAssertTrue(tryUnwrap(controller.popupView).applicationPhotoCarousel.isHidden)
     }
 
-    func testSubmissionTypesConfigureExpectedPrimaryActionTitles() {
-        let controller = makeController()
-        controller.loadViewIfNeeded()
-
-        for (type, expectedTitle) in [
-            ("application", "Apply"),
-            ("prequalification", "Prequalify"),
-            ("unsupported", "Apply")
-        ] {
-            controller.showApartmentPopup(for: makeSubmission(type: type))
-
-            XCTAssertEqual(
-                tryUnwrap(controller.popupView).startApplicationButton.title(for: .normal),
-                expectedTitle
-            )
-        }
-    }
-
     func testStartUsesChallengeMockToOnlyHidePopup() async {
         let statusService = RecordingInviteStatusService()
         let controller = makeController(inviteStatusService: statusService)

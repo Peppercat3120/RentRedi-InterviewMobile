@@ -16,7 +16,6 @@
 		100000000000000000000007 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000A /* SceneDelegate.swift */; };
 		100000000000000000000009 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000D /* RoundedButton.swift */; };
 		10000000000000000000000B /* DemoImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000F /* DemoImageProvider.swift */; };
-		10000000000000000000000F /* DatabaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000013 /* DatabaseFunctions.swift */; };
 		100000000000000000000010 /* PhotoCarouselItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000014 /* PhotoCarouselItem.swift */; };
 		100000000000000000000011 /* PhotoCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000015 /* PhotoCarouselCell.swift */; };
 		100000000000000000000012 /* PhotoCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000016 /* PhotoCarouselView.swift */; };
@@ -71,7 +70,6 @@
 		20000000000000000000000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20000000000000000000000D /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		20000000000000000000000F /* DemoImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoImageProvider.swift; sourceTree = "<group>"; };
-		200000000000000000000013 /* DatabaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFunctions.swift; sourceTree = "<group>"; };
 		200000000000000000000014 /* PhotoCarouselItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCarouselItem.swift; sourceTree = "<group>"; };
 		200000000000000000000015 /* PhotoCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCarouselCell.swift; sourceTree = "<group>"; };
 		200000000000000000000016 /* PhotoCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCarouselView.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 			isa = PBXGroup;
 			children = (
 				200000000000000000000028 /* DemoMenuViewController.swift */,
-				200000000000000000000013 /* DatabaseFunctions.swift */,
 				200000000000000000000021 /* DemoApartmentPopupServices.swift */,
 			);
 			path = Support;
@@ -459,7 +456,6 @@
 				100000000000000000000020 /* MaintenanceRequest.swift in Sources */,
 				100000000000000000000021 /* MaintenanceRequestViewController.swift in Sources */,
 				10000000000000000000001C /* DemoApartmentPopupServices.swift in Sources */,
-				10000000000000000000000F /* DatabaseFunctions.swift in Sources */,
 				10000000000000000000001D /* ImageLoading.swift in Sources */,
 				100000000000000000000010 /* PhotoCarouselItem.swift in Sources */,
 				100000000000000000000011 /* PhotoCarouselCell.swift in Sources */,
